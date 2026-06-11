@@ -1,16 +1,34 @@
-# React + Vite
+# VaxPoint - Frontend 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web do sistema **VaxPoint**, desenvolvida para o gerenciamento, agendamento e acompanhamento de vacinas para usuários e seus pets.
 
-Currently, two official plugins are available:
+## Integrantes do Grupo
+- Joaby Henrique
+- William
+- Maria Clara
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+#🛠️ Tecnologias e Configuração
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Este projeto foi criado utilizando **React** através do **Vite**, proporcionando uma configuração minimalista e rápida com suporte a **HMR (Hot Module Replacement)** e regras de qualidade de código via **ESLint**.
 
-## Expanding the ESLint configuration
+*Nota: Este projeto utiliza **JavaScript** puro e o compilador padrão do ecossistema Vite para máxima performance de desenvolvimento.*
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Principais Bibliotecas Utilizadas:
+- **Axios:** Para comunicação e requisições HTTP com a API.
+- **React Hook Form:** Para gerenciamento e validação eficiente de formulários.
+- **React Router Dom:** Para navegação entre as telas do sistema.
+
+---
+
+# Como Executar o Frontend
+
+Certifique-se de estar dentro do diretório do Frontend no seu terminal e execute:
+
+```bash
+# 1. Instalar as dependências do projeto
+npm install
+
+# 2. Iniciar o servidor de desenvolvimento local
+npm run dev
