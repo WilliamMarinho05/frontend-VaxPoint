@@ -1,0 +1,135 @@
+.home-container {
+  padding: 30px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home-banner {
+  background-color: var(--dark-blue);
+  color: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 15px rgba(10, 37, 64, 0.1);
+}
+
+.home-greeting {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.home-subtitle {
+  color: var(--text-light);
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+.home-grid-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.home-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark-blue);
+}
+
+.home-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-card-campanha {
+  background-color: var(--bg-card);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-left: 5px solid var(--badge-blue-txt);
+  position: relative;
+}
+
+.home-badge-publico {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: var(--badge-blue-bg);
+  color: var(--badge-blue-txt);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  fontWeight: 600;
+}
+
+.home-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 8px;
+}
+
+.home-card-periodo {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.home-card-desc {
+  font-size: 14px;
+  color: var(--text-slate);
+  line-height: 1.5;
+}
+
+.home-card-posto {
+  background-color: var(--bg-card);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-left: 5px solid var(--primary-green);
+}
+
+.home-alerta-estoque {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-danger-light);
+  color: var(--admin-danger);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-danger-light);
+}
+
+.home-posto-texto {
+  font-size: 14px;
+  color: var(--text-slate);
+  margin-bottom: 6px;
+}
+
+.home-btn-mapa {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  background-color: var(--bg-light-hover);
+  color: var(--text-dark-slate);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}

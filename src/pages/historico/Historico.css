@@ -1,0 +1,240 @@
+.historico-container {
+  padding: 30px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.historico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.historico-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  color: var(--dark-blue);
+}
+
+.historico-subtitle {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.historico-btn-launch {
+  padding: 10px 16px;
+  background-color: var(--brand-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.historico-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  background-color: var(--bg-card);
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.historico-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.historico-btn-active {
+  padding: 6px 12px;
+  background-color: var(--brand-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.historico-btn-inactive {
+  padding: 6px 12px;
+  background-color: var(--bg-light-hover);
+  color: var(--text-slate);
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.historico-timeline {
+  border-left: 3px solid var(--border-light);
+  padding-left: 20px;
+  marginLeft: 10px;
+}
+
+.historico-timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.historico-timeline-dot {
+  position: absolute;
+  left: -32px;
+  top: 2px;
+  background-color: var(--bg-light);
+  padding: 2px;
+}
+
+.historico-timeline-content {
+  background-color: var(--bg-card);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-light);
+}
+
+.historico-meta-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.historico-tag-humano {
+  background-color: var(--badge-blue-bg);
+  color: var(--brand-blue);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.historico-tag-pet {
+  background-color: var(--bg-success-light);
+  color: var(--primary-green);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.historico-date-text {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.historico-vacina-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 4px;
+}
+
+.historico-benefi-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.historico-status-pronto {
+  font-size: 12px;
+  color: var(--primary-green);
+  font-weight: 600;
+}
+
+.historico-status-agendado {
+  font-size: 12px;
+  color: var(--brand-blue);
+  font-weight: 600;
+}
+
+/* --- ESTILOS DO MODAL --- */
+.historico-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 37, 64, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.historico-modal-card {
+  background-color: var(--bg-card);
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.historico-modal-title {
+  margin-bottom: 15px;
+  color: var(--dark-blue);
+}
+
+.historico-modal-group {
+  margin-bottom: 15px;
+}
+
+.historico-modal-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-slate);
+}
+
+.historico-modal-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  outline: none;
+  font-size: 14px;
+  background-color: var(--bg-light);
+}
+
+.historico-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.historico-btn-cancel {
+  padding: 10px 14px;
+  background-color: var(--bg-light-hover);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-slate);
+}
+
+.historico-btn-save {
+  padding: 10px 14px;
+  background-color: var(--brand-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}

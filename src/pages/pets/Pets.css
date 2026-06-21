@@ -1,0 +1,129 @@
+.pets-container {
+  padding: 30px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pets-header {
+  margin-bottom: 30px;
+}
+
+.pets-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  color: var(--dark-blue);
+}
+
+.pets-subtitle {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.pets-content-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 30px;
+}
+
+.pets-form-card {
+  background-color: var(--bg-card);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  height: fit-content;
+}
+
+.pets-form-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--dark-blue);
+}
+
+.pets-input-group {
+  margin-bottom: 15px;
+}
+
+.pets-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-slate);
+  margin-bottom: 6px;
+}
+
+.pets-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  outline: none;
+  font-size: 14px;
+  background-color: var(--bg-light);
+}
+
+.pets-btn-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-green);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  height: fit-content;
+}
+
+.pets-card {
+  background-color: var(--bg-card);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  text-align: center;
+  border: 1px solid var(--border-light);
+  position: relative;
+}
+
+.pets-avatar {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.pets-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 8px;
+}
+
+.pets-info {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.pets-btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 15px;
+  background: none;
+  border: none;
+  color: var(--admin-danger);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}

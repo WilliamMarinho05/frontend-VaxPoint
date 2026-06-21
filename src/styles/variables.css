@@ -1,0 +1,30 @@
+:root {
+  /* --- TIPOGRAFIA --- */
+  --font-main: 'Nunito', sans-serif;
+
+  /* --- CORES INSTITUCIONAIS (VaxPoint) --- */
+  --brand-blue: #013991;       /* Usado em logos, badges de perfil e títulos */
+  --primary-blue: #007BFF;     /* Botões principais e filtros ativos */
+  --primary-green: #10B981;    /* Cor dos pets e postos de vacinação */
+  --dark-blue: #0A2540;        /* Cor principal de títulos pesados e cabeçalhos */
+
+  /* --- CORES DE FEEDBACK / ADMIN --- */
+  --admin-danger: #DC2626;     /* Links admin, botão deletar e botão de excluir pet */
+  --alert-bg: #FEF2F2;         /* Fundo do alerta comunitário de falta de estoque */
+  --alert-border: #FEE2E2;     /* Borda do alerta comunitário */
+
+  /* --- TONS NEUTROS / VARIÁVEIS DE FUNDO --- */
+  --bg-light: #F4F7FC;         /* Fundo oficial de todas as páginas do app */
+  --bg-card: #FFFFFF;          /* Fundo branco dos cards e blocos */
+  --text-slate: #475569;       /* Textos comuns e parágrafos */
+  --text-muted: #64748B;       /* Subtítulos e textos secundários de apoio */
+  --text-light: #94A3B8;       /* Textos de rodapés ou dadas secundárias */
+
+  /* --- CORES DE COMPONENTES --- */
+  --border-light: #E2E8F0;     /* Bordas padrão de cards e inputs */
+  --badge-blue-bg: #EFF6FF;    /* Fundo do badge de usuário e tags humanas */
+  --badge-blue-border: #BFDBFE;/* Borda do badge do usuário */
+  --badge-green-bg: #ECFDF5;   /* Fundo das tags de pets no histórico */
+  --btn-gray-bg: #F1F5F9;      /* Botão cinza de mapa e botões inativos */
+  --btn-gray-text: #334155;    /* Texto dentro de botões cinzas */
+}
