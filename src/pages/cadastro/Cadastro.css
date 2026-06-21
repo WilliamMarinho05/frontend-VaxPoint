@@ -118,3 +118,65 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+/* --- HOVERS E FEEDBACKS VISUAIS ADICIONAIS --- */
+
+/* Efeito de foco nos campos de input (borda acende e o fundo clareia) */
+.cadastro-input-group:focus-within {
+  border-color: var(--brand-blue);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 3px rgba(1, 57, 145, 0.1);
+  transition: all 0.2s;
+}
+
+/* Efeito ao passar o mouse no botão principal */
+.cadastro-btn-primary:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(1, 57, 145, 0.25);
+}
+
+/* Efeito ao passar o mouse no botão de voltar */
+.cadastro-back-button:hover {
+  color: var(--brand-blue);
+  transition: color 0.2s;
+}
+
+/* Efeito ao passar o mouse no link de fazer login */
+.cadastro-link:hover {
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+/* --- ADAPTAÇÃO AUTOMÁTICA PARA TELAS MENORES (NOTEBOOKS) --- */
+@media (max-height: 780px) {
+  .cadastro-container {
+    padding: 15px; /* Reduz ligeiramente o recuo externo */
+  }
+
+  .cadastro-card {
+    padding: 25px 35px; /* Enxuga o excesso de padding vertical do card */
+  }
+
+  .cadastro-logo-section {
+    margin-top: 5px;   /* Aproxima o topo do card */
+    margin-bottom: 15px; /* Reduz a distância para o formulário */
+  }
+
+  .cadastro-logo-img {
+    width: 50px; /* Reduz a logo sutilmente em telas pequenas para economizar altura */
+    margin-bottom: 5px;
+  }
+
+  .cadastro-form {
+    gap: 10px; /* Reduz o espaço vazio entre os campos de input */
+  }
+
+  .cadastro-input-group {
+    padding: 8px 15px; /* Deixa os inputs ligeiramente menos altos */
+  }
+
+  .cadastro-links-container {
+    margin-top: 15px; /* Aproxima o rodapé do botão de enviar */
+  }
+}
