@@ -5,12 +5,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './components/Navbar';
 
 // Importação das Páginas (que vamos codificar a seguir)
-import Login from './pages/Login';
-import Cadastro from './pages/Cadastro';
-import Home from './pages/Home';
-import Pets from './pages/Pets';
-import Historico from './pages/Historico';
-import Admin from './pages/Admin';
+import Login from './pages/login/Login';
+import Cadastro from './pages/cadastro/Cadastro';
+import Home from './pages/home/Home';
+import Pets from './pages/pets/Pets';
+import Historico from './pages/historico/Historico';
+import Admin from './pages/admin/Admin';
 
 // 🛡️ Componente de Rota Privada Comum
 // Bloqueia o acesso se o utilizador não tiver um login mocado no localStorage

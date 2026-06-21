@@ -1,0 +1,120 @@
+.cadastro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-light);
+  padding: 20px;
+}
+
+.cadastro-card {
+  background-color: var(--bg-card);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+}
+
+.cadastro-back-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.cadastro-logo-section {
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.cadastro-logo-img {
+  width: 60px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.cadastro-logo-text {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-blue);
+}
+
+.cadastro-logo-text span {
+  color: var(--primary-green);
+}
+
+.cadastro-subtext {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cadastro-input-group {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-light-hover);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 10px 15px;
+}
+
+.cadastro-icon {
+  margin-right: 10px;
+}
+
+.cadastro-input {
+  border: none;
+  background: none;
+  outline: none;
+  width: 100%;
+  color: var(--dark-blue);
+  font-size: 15px;
+}
+
+.cadastro-btn-primary {
+  background-color: var(--brand-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: opacity 0.2s;
+}
+
+.cadastro-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.cadastro-links-container {
+  margin-top: 20px;
+}
+
+.cadastro-link-text {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.cadastro-link {
+  color: var(--brand-blue);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
