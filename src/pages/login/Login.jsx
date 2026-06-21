@@ -98,10 +98,6 @@ function Login() {
           <span>Não tem uma conta? </span>
           <Link to="/cadastro" className="login-signup-link">Cadastre-se aqui</Link>
         </div>
-
-        <p className="login-footer-text">
-          Dica para a apresentação: Use o e-mail <strong>admin@vaxpoint.com</strong> para testar a visão do Administrador.
-        </p>
       </div>
     </div>
   );

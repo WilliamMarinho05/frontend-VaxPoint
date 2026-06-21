@@ -1,135 +1,435 @@
+/* =========================================
+   CONTAINERS PRINCIPAIS E ALINHAMENTO
+========================================= */
 .home-container {
-  padding: 30px 40px;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
+.home-banner,
+.carousel-section,
+.home-controls,
+.home-main-content {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   CABEÇALHO DE BOAS-VINDAS
+========================================= */
 .home-banner {
-  background-color: var(--dark-blue);
-  color: var(--bg-card);
-  padding: 30px;
-  border-radius: 12px;
-  margin-bottom: 35px;
-  box-shadow: 0 4px 15px rgba(10, 37, 64, 0.1);
+  margin-top: 40px; 
+  margin-bottom: 40px; 
+  background: transparent; 
+  border: none;
+  box-shadow: none;
+}
+
+.home-welcome-text {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .home-greeting {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: var(--text-slate);
 }
 
 .home-subtitle {
-  color: var(--text-light);
-  margin-top: 5px;
-  font-size: 15px;
+  font-size: 1.05rem;
+  font-weight: 400;
+  opacity: 0.7;
+  margin: 0;
 }
 
-.home-grid-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
+/* =========================================
+   CARROSSEL
+========================================= */
+.carousel-section {
+  margin-top: 10px;
+  margin-bottom: 48px;
 }
 
+.carousel-header {
+  margin-bottom: 24px; 
+}
+
+.carousel-header h2 {
+  color: var(--brand-blue);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.home-carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-viewport {
+  width: 100%;
+  overflow: visible;
+}
+
+.carousel-track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 420px;
+}
+
+.carousel-slide {
+  flex: 0 0 78%;
+  position: relative;
+  position: absolute;
+  width: 60%;
+  transition: all 0.5s ease;
+  opacity: 0.25;
+  transform: scale(0.78);
+  filter: blur(1.2px);
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  transform: translateX(0) scale(1.05);
+  z-index: 5;
+  width: 72%;
+  filter: none;
+}
+
+.carousel-slide.right {
+  opacity: 0.18;
+  transform: translateX(65%) scale(0.72);
+  z-index: 2;
+}
+
+.carousel-slide.left {
+  opacity: 0.18;
+  transform: translateX(-65%) scale(0.72);
+  z-index: 2;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.carousel-slide.active .carousel-image {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.carousel-info {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.carousel-info h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-slate);
+  margin: 0 0 4px 0;
+}
+
+.carousel-info p {
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.carousel-btn-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  border: none;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease;
+}
+
+.carousel-btn-arrow:hover {
+  background: rgba(0,0,0,0.6);
+}
+
+.carousel-btn-arrow.left { left: 0; }
+.carousel-btn-arrow.right { right: 0; }
+
+
+/* =========================================
+   CONTROLES (TOGGLE SWITCH)
+========================================= */
+.home-controls {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.toggle-switch-container {
+  display: inline-flex;
+  background: var(--btn-gray-bg, rgba(255,255,255,0.05));
+  border: 1px solid var(--border-light, rgba(255,255,255,0.1));
+  padding: 4px;
+  border-radius: 50px; 
+  margin: 0;
+}
+
+.toggle-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-postos { border-radius: 50px 0 0 50px; }
+.btn-campanhas { border-radius: 0 50px 50px 0; }
+
+.toggle-tab:hover:not(.ativa) {
+  color: var(--text-slate, #cbd5e1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-postos.ativa {
+  background: var(--primary-green, #10b981);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-campanhas.ativa {
+  background: var(--primary-blue, #3b82f6);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+
+/* =========================================
+   LISTAGEM DE CARDS: ESTRUTURA GERAL
+========================================= */
 .home-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px; 
+  padding-bottom: 40px;
 }
 
-.home-section-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--dark-blue);
-}
-
-.home-cards-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.home-card-campanha {
-  background-color: var(--bg-card);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border-left: 5px solid var(--badge-blue-txt);
-  position: relative;
-}
-
-.home-badge-publico {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--badge-blue-bg);
-  color: var(--badge-blue-txt);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  fontWeight: 600;
+.card-texto-alinhado {
+  text-align: left;
+  flex: 1;
+  
 }
 
 .home-card-title {
-  font-size: 18px;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: var(--dark-blue);
-  margin-bottom: 8px;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
 }
 
-.home-card-periodo {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-}
-
+.home-posto-texto, 
+.home-card-periodo, 
 .home-card-desc {
-  font-size: 14px;
-  color: var(--text-slate);
+  font-size: 1rem;
+  margin: 6px 0;
+  opacity: 0.85;
   line-height: 1.5;
 }
 
-.home-card-posto {
-  background-color: var(--bg-card);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border-left: 5px solid var(--primary-green);
+/* =========================================
+   PERSONALIDADE 1: POSTOS (VERDE / SAÚDE)
+========================================= */
+.home-card-posto-linear {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 20px;
+  min-height: 130px;
+
+  background: var(--bg-card);
+
+  /* 👇 borda quase invisível no estado normal */
+  border: 1px solid rgba(16, 185, 129, 0.08);
+
+  border-radius: 16px;
+  position: relative;
+
+  transition: all 0.25s ease;
 }
 
-.home-alerta-estoque {
+.home-card-posto-linear:hover {
+  transform: translateY(-4px);
+
+  /* 👇 borda aparece de verdade no hover */
+  border-color: rgba(16, 185, 129, 0.45);
+
+  box-shadow: 0 14px 30px rgba(16, 185, 129, 0.18);
+
+  background: var(--bg-card);
+}
+
+.home-alerta-estoque-box {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: var(--bg-danger-light);
-  color: var(--admin-danger);
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  border: 1px solid var(--border-danger-light);
-}
 
-.home-posto-texto {
-  font-size: 14px;
-  color: var(--text-slate);
-  margin-bottom: 6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+
+  background: var(--alert-bg);
+  border: 1px solid var(--alert-border);
+
+  color: var(--admin-danger);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  max-width: 60%;
+  z-index: 2;
+
+  backdrop-filter: blur(6px);
 }
 
 .home-btn-mapa {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 15px;
-  background-color: var(--bg-light-hover);
-  color: var(--text-dark-slate);
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
+
+  padding: 10px 14px;
+  border-radius: 10px;
+
+  background: var(--badge-green-bg);
+  color: var(--primary-green);
+
+  border: 1px solid var(--primary-green);
+
   text-decoration: none;
-  transition: background-color 0.2s;
+  font-weight: 600;
+
+  transition: all 0.2s ease;
+}
+
+.home-btn-mapa:hover {
+  background: var(--primary-green);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   PERSONALIDADE 2: CAMPANHAS (AZUL / EVENTOS)
+========================================= */
+.home-card-campanha-linear {
+  background: var(--bg-card);
+
+  /* 👇 borda quase invisível */
+  border: 1px solid rgba(59, 130, 246, 0.08);
+
+  border-radius: 16px;
+
+  padding: 24px;
+
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  transition: all 0.25s ease;
+}
+
+.home-card-campanha-linear:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.45);
+
+  box-shadow: 0 14px 30px rgba(59, 130, 246, 0.18);
+}
+
+.lista-campanha-thumb {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.campanha-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.home-badge-publico {
+  background: var(--badge-blue-bg);
+  color: var(--primary-blue);
+
+  border: 1px solid var(--badge-blue-border);
+
+  padding: 6px 12px;
+  border-radius: 20px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =========================================
+   ANIMAÇÕES E RESPONSIVIDADE
+========================================= */
+.animate-fade {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .home-card-campanha-linear {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .lista-campanha-thumb {
+    width: 100%;
+    height: 160px;
+  }
+}
+
+.home-card-actions {
+  flex-shrink: 0;
+}
+
+.home-card-posto-linear:hover {
+  transform: scale(1.01);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
 }
