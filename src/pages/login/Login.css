@@ -1,0 +1,213 @@
+@keyframes carregarBarra {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-light);
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.login-card {
+  background-color: var(--bg-card);
+  padding: 20px 40px 45px 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  width: 100%;
+  max-width: 460px;
+  border: 1px solid var(--border-light);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.login-card-logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.login-card-logo {
+  width: 80px;
+  height: auto;
+  object-fit: contain;
+}
+
+.login-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--brand-blue);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 35px;
+}
+
+.login-input-group {
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.login-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-blue);
+  margin-bottom: 8px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background-color: var(--badge-blue-bg);
+  outline: none;
+  font-size: 14px;
+  color: var(--dark-blue);
+  transition: all 0.2s;
+}
+
+.login-btn-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--brand-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+  box-shadow: 0 4px 12px rgba(1, 57, 145, 0.2);
+  transition: all 0.2s;
+}
+
+.login-signup-container {
+  margin-top: 25px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.login-signup-link {
+  color: var(--brand-blue);
+  font-weight: 600;
+  text-decoration: underline;
+  margin-left: 5px;
+}
+
+
+.login-footer-text {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 30px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* --- ESTILOS DA TELA DE CARREGAMENTO IMERSIVA --- */
+.loading-overlay {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--primary-green) 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  color: var(--bg-card);
+}
+
+.loading-logo-container {
+  margin-bottom: 25px;
+}
+
+.loading-logo {
+  width: 110px;
+  height: auto;
+}
+
+.loading-title {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+}
+
+.loading-subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 40px;
+}
+
+.loading-progress-bar-bg {
+  width: 240px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.loading-progress-bar-fill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-card);
+  border-radius: 10px;
+  animation: carregarBarra 2.5s linear forwards;
+}
+
+/* 1. Efeito de foco nos inputs (mostra cuidado com feedback visual) */
+.login-input:focus {
+  border-color: var(--brand-blue);
+  background-color: var(--bg-card);
+  box-shadow: 0 0 0 3px rgba(1, 57, 145, 0.1);
+}
+
+/* 2. Efeito de hover no botão de entrar */
+.login-btn-submit:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(1, 57, 145, 0.3);
+}
+
+/* --- ADAPTAÇÃO AUTOMÁTICA PARA TELAS MENORES (NOTEBOOKS) --- */
+@media (max-height: 760px) {
+  .login-container {
+    padding: 20px; /* Reduz o recuo externo para dar mais espaço útil */
+  }
+
+  .login-card {
+    padding: 20px 40px; /* Enxuga o excesso de espaço interno vertical sem deformar */
+  }
+
+  .login-subtitle {
+    margin-bottom: 20px; /* Diminui a distância vazia após o título */
+  }
+
+  .login-input-group {
+    margin-bottom: 14px; /* Aproxima os campos de input */
+  }
+
+  .login-signup-container {
+    margin-top: 15px; /* Reduz o espaço vazio abaixo do botão */
+  }
+
+  .login-footer-text {
+    margin-top: 15px; /* Ajusta o texto de suporte para subir junto com o layout */
+  }
+}
