@@ -1,175 +1,179 @@
 import React, { useState, useEffect } from 'react';
-import { PlusCircle, PawPrint, Trash2, Syringe, Calendar, X, ShieldAlert } from 'lucide-react';
+import { PlusCircle, PawPrint } from 'lucide-react';
+import PetCard from './components/PetCard/PetCard';
+import PetFormModal from './components/PetFormModal/PetFormModal';
+import PetCarteiraModal from './components/PetCarteiraModal/PetCarteiraModal';
 import './Pets.css';
+
+// Importa os novos serviços do Axios
+import { 
+  buscarPetsAPI, 
+  buscarRacasAPI, 
+  buscarVacinasDoPetAPI, 
+  criarPetAPI, 
+  atualizarPetAPI, 
+  deletarPetAPI 
+} from '../../services/petService'; // Ajuste o caminho do import conforme sua pasta
 
 function Pets() {
   const [pets, setPets] = useState([]);
-  const [nome, setNome] = useState('');
-  const [especie, setEspecie] = useState('Cão');
-  const [idade, setIdade] = useState('');
-  
-  // Estado para a modal de histórico
-  const [petSelecionado, setPetSelecionado] = useState(null);
+  const [racasDisponiveis, setRacasDisponiveis] = useState([]);
+  const [historicoVacinas, setHistoricoVacinas] = useState({});
 
-  // Histórico mockado de vacinas vinculadas por idPet
-  const [historicoVacinas] = useState({
-    1: [
-      { id: 10, vacina: "Antirrábica Canina", data: "12/03/2025", posto: "USF 307 Norte", status: "Aplicada" },
-      { id: 11, vacina: "V10 Óctupla", data: "20/01/2026", posto: "Centro de Saúde das Arnos", status: "Aplicada" }
-    ],
-    2: [
-      { id: 12, vacina: "Antirrábica Felina", data: "05/04/2025", posto: "USF Taquaralto", status: "Aplicada" }
-    ]
-  });
+  const [modalFormAberto, setModalFormAberto] = useState(false);
+  const [petSelecionadoHistorico, setPetSelecionadoHistorico] = useState(null);
+  const [editandoPet, setEditandoPet] = useState(null);
 
+  // Carrega a lista de Pets e as Raças Disponíveis ao montar a tela
   useEffect(() => {
-    const petsSalvos = JSON.parse(localStorage.getItem('vaxpoint_pets')) || [
-      { idPet: 1, nome: "Thor", especie: "Cão", idade: 3 },
-      { idPet: 2, nome: "Mia", especie: "Gato", idade: 1 }
-    ];
-    setPets(petsSalvos);
-    if (!localStorage.getItem('vaxpoint_pets')) {
-      localStorage.setItem('vaxpoint_pets', JSON.stringify(petsSalvos));
-    }
+    buscarPets();
+    buscarRacas();
   }, []);
 
-  const handleCadastrarPet = (e) => {
-    e.preventDefault();
-    if (!nome || !idade) {
-      alert('Preencha todos os campos do pet!');
-      return;
+  // Busca as vacinas sob demanda quando o usuário clica para abrir a carteira
+  useEffect(() => {
+    if (petSelecionadoHistorico) {
+      buscarVacinasDoPet(petSelecionadoHistorico.id_pet);
     }
+  }, [petSelecionadoHistorico]);
 
-    const novoPet = {
-      idPet: Date.now(),
-      nome,
-      especie,
-      idade: parseInt(idade)
-    };
-
-    const listaAtualizada = [...pets, novoPet];
-    setPets(listaAtualizada);
-    localStorage.setItem('vaxpoint_pets', JSON.stringify(listaAtualizada));
-    
-    setNome('');
-    setIdade('');
-  };
-
-  const handleDeletarPet = (id, e) => {
-    e.stopPropagation(); // Evita abrir a modal ao clicar no botão de remover
-    if (window.confirm("Deseja mesmo remover este pet do sistema?")) {
-      const filtrados = pets.filter(p => p.idPet !== id);
-      setPets(filtrados);
-      localStorage.setItem('vaxpoint_pets', JSON.stringify(filtrados));
+  const buscarPets = async () => {
+    try {
+      const dados = await buscarPetsAPI();
+      setPets(dados);
+    } catch (error) {
+      console.error("Erro ao buscar pets:", error);
+      alert("Não foi possível carregar a lista de pets.");
     }
   };
 
-  // Retorna as vacinas do pet atual ou um array vazio caso seja novo
-  const obterVacinasDoPet = (idPet) => {
-    return historicoVacinas[idPet] || [];
+  const buscarRacas = async () => {
+    try {
+      const dados = await buscarRacasAPI();
+      setRacasDisponiveis(dados);
+    } catch (error) {
+      console.error("Erro ao buscar raças:", error);
+    }
+  };
+
+  const buscarVacinasDoPet = async (idPet) => {
+    try {
+      const dados = await buscarVacinasDoPetAPI(idPet);
+      setHistoricoVacinas(prev => ({
+        ...prev,
+        [idPet]: dados
+      }));
+    } catch (error) {
+      console.error("Erro ao carregar histórico de vacinas:", error);
+    }
+  };
+
+  const calcularIdade = (dataNascString) => {
+    if (!dataNascString) return 'Idade desconhecida';
+    const [anoNasc, mesNasc] = dataNascString.split('-').map(Number);
+    const hoje = new Date();
+    const anoAtual = hoje.getFullYear();
+    const mesAtual = hoje.getMonth() + 1;
+    let anos = anoAtual - anoNasc;
+    let meses = mesAtual - mesNasc;
+    if (meses < 0) { anos--; meses += 12; }
+    if (anos === 0) return `${meses} mes(es)`;
+    return `${anos} ano(s) ${meses > 0 ? `e ${meses} mes(es)` : ''}`;
+  };
+
+  const abrirFormularioNovo = () => {
+    setEditandoPet(null);
+    setModalFormAberto(true);
+  };
+
+  const abrirFormularioEdicao = (pet, e) => {
+    e.stopPropagation();
+    setEditandoPet(pet);
+    setModalFormAberto(true);
+  };
+
+  const handleSalvarPet = async (formData) => {
+    try {
+      const payload = {
+        nome: formData.nome,
+        especie: formData.especie,
+        id_raca: parseInt(formData.idRaca),
+        porte: formData.porte,
+        peso: parseFloat(formData.peso),
+        sexo: formData.sexo,
+        data_nascimento: formData.dataNasc ? `${formData.dataNasc}-01` : null,
+        data_nascimento: formData.dataNasc,
+        numero_microchip: formData.microchip || null,
+        foto_url: formData.foto || null
+      };
+
+      if (editandoPet) {
+        await atualizarPetAPI(editandoPet.id_pet, payload);
+      } else {
+        await criarPetAPI(payload);
+      }
+
+      buscarPets(); // Atualiza a grade de cards com os dados novos do banco
+      setModalFormAberto(false);
+    } catch (error) {
+      console.error("Erro ao salvar pet:", error);
+      alert("Houve um erro ao tentar salvar o pet no banco de dados.");
+    }
+  };
+
+  const handleDeletarPet = async (id, e) => {
+    e.stopPropagation();
+    if (window.confirm("Remover este pet apagará também todo o histórico de vacinas dele no banco. Continuar?")) {
+      try {
+        await deletarPetAPI(id);
+        setPets(prevPets => prevPets.filter(p => p.id_pet !== id));
+      } catch (error) {
+        console.error("Erro ao remover pet:", error);
+        alert("Não foi possível excluir o pet.");
+      }
+    }
   };
 
   return (
     <div className="pets-container">
-      <header className="pets-header">
-        <h2 className="pets-title"><PawPrint size={26} color="#10B981" /> Meus Pets</h2>
-        <p className="pets-subtitle">Gerencie e consulte a carteira de vacinação individual dos seus animais de estimação.</p>
+      <header className="pets-header-flex">
+        <div>
+          <h2 className="pets-title"><PawPrint size={26} color="#10B981" /> Meus Pets</h2>
+          <p className="pets-subtitle">Consulte a carteira e dados veterinários individuais dos seus animais.</p>
+        </div>
+        <button className="pets-btn-add-trigger" onClick={abrirFormularioNovo}>
+          <PlusCircle size={18} /> Adicionar Pet
+        </button>
       </header>
 
-      <div className="pets-content-layout">
-        {/* Formulário de Cadastro Lateral */}
-        <form onSubmit={handleCadastrarPet} className="pets-form-card">
-          <h3 className="pets-form-title"><PlusCircle size={18} /> Adicionar Novo Pet</h3>
-          
-          <div className="pets-input-group">
-            <label className="pets-label">Nome do Animal</label>
-            <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Ex: Max" className="pets-input" required />
-          </div>
-
-          <div className="pets-input-group">
-            <label className="pets-label">Espécie</label>
-            <select value={especie} onChange={(e) => setEspecie(e.target.value)} className="pets-input">
-              <option value="Cão">🐶 Cão</option>
-              <option value="Gato">🐱 Gato</option>
-              <option value="Outro">🐾 Outro</option>
-            </select>
-          </div>
-
-          <div className="pets-input-group">
-            <label className="pets-label">Idade (Anos)</label>
-            <input type="number" value={idade} onChange={(e) => setIdade(e.target.value)} placeholder="Ex: 2" className="pets-input" required />
-          </div>
-
-          <button type="submit" className="pets-btn-submit">Cadastrar Pet</button>
-        </form>
-
-        {/* Grid de Listagem de Animais */}
-        <div className="pets-grid">
-          {pets.map(pet => (
-            <div key={pet.idPet} className="pets-card" onClick={() => setPetSelecionado(pet)}>
-              <div className="pets-avatar">
-                {pet.especie === 'Cão' ? '🐶' : pet.especie === 'Gato' ? '🐱' : '🐾'}
-              </div>
-              <h4 className="pets-name">{pet.nome}</h4>
-              <p className="pets-info"><strong>Espécie:</strong> {pet.especie}</p>
-              <p className="pets-info"><strong>Idade:</strong> {pet.idade} anos</p>
-              
-              <span className="pets-click-badge">📋 Ver Histórico</span>
-
-              <button onClick={(e) => handleDeletarPet(pet.idPet, e)} className="pets-btn-delete">
-                <Trash2 size={14} /> Remover
-              </button>
-            </div>
-          ))}
-          {pets.length === 0 && <p className="pets-empty-text">Nenhum pet cadastrado.</p>}
-        </div>
+      <div className="pets-grid">
+        {pets.map(pet => (
+          <PetCard 
+            key={pet.id_pet} 
+            pet={pet} 
+            onVerCarteira={setPetSelecionadoHistorico}
+            onEditar={abrirFormularioEdicao}
+            onDeletar={handleDeletarPet}
+            calcularIdade={calcularIdade}
+          />
+        ))}
+        {pets.length === 0 && <p className="pets-empty-text">Nenhum pet cadastrado.</p>}
       </div>
 
-      {/* MODAL: CARTEIRA DE VACINAÇÃO INDIVIDUAL */}
-      {petSelecionado && (
-        <div className="pets-modal-overlay" onClick={() => setPetSelecionado(null)}>
-          <div className="pets-modal-card" onClick={(e) => e.stopPropagation()}>
-            <header className="pets-modal-header">
-              <div className="pets-modal-title-box">
-                <Syringe size={22} color="#0070f3" />
-                <h3>Carteira de Vacinação: {petSelecionado.nome}</h3>
-              </div>
-              <button className="pets-modal-close-icon" onClick={() => setPetSelecionado(null)}>
-                <X size={20} />
-              </button>
-            </header>
+      <PetFormModal 
+        isOpen={modalFormAberto}
+        onClose={() => setModalFormAberto(false)}
+        onSalvar={handleSalvarPet}
+        editandoPetId={editandoPet?.id_pet}
+        racasDisponiveis={racasDisponiveis}
+        dadosIniciais={editandoPet}
+      />
 
-            <div className="pets-modal-body">
-              {obterVacinasDoPet(petSelecionado.idPet).length > 0 ? (
-                <div className="pets-timeline">
-                  {obterVacinasDoPet(petSelecionado.idPet).map((item) => (
-                    <div key={item.id} className="pets-timeline-item">
-                      <div className="pets-timeline-marker"></div>
-                      <div className="pets-timeline-content">
-                        <h4 className="pets-timeline-vaccine">{item.vacina}</h4>
-                        <p className="pets-timeline-meta">
-                          <span><Calendar size={13} /> {item.data}</span>
-                          <span>📍 {item.posto}</span>
-                        </p>
-                        <span className="pets-badge-status-applied">{item.status}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="pets-no-history">
-                  <ShieldAlert size={36} color="#94a3b8" />
-                  <p>Nenhuma vacina aplicada registrada para {petSelecionado.nome} até o momento.</p>
-                </div>
-              )}
-            </div>
-
-            <footer className="pets-modal-footer">
-              <button className="pets-modal-btn-close" onClick={() => setPetSelecionado(null)}>Fechar Carteira</button>
-            </footer>
-          </div>
-        </div>
-      )}
+      <PetCarteiraModal 
+        pet={petSelecionadoHistorico}
+        historicoVacinas={historicoVacinas}
+        onClose={() => setPetSelecionadoHistorico(null)}
+      />
     </div>
   );
 }

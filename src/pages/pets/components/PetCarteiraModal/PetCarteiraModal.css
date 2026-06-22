@@ -1,0 +1,108 @@
+/* =========================================
+   ESTILOS DA TIMELINE (CARTEIRA DE VACINAÇÃO)
+========================================= */
+
+.pets-modal-card:not(.wide) {
+  font-family: var(--font-main);
+  max-width: 500px;
+  background-color: var(--bg-card);
+}
+
+.pets-modal-title-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pets-modal-title-box h3 {
+  color: var(--dark-blue);
+  font-weight: 700;
+  margin: 0;
+}
+
+.pets-modal-body {
+  padding: 24px;
+  max-height: 380px;
+  overflow-y: auto;
+  text-align: left;
+  background-color: var(--bg-card);
+}
+
+/* TIMELINE STYLES */
+.pets-timeline {
+  position: relative;
+  border-left: 2px solid var(--border-light);
+  padding-left: 20px;
+  margin-left: 10px;
+}
+
+.pets-timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.pets-timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.pets-timeline-marker {
+  position: absolute;
+  left: -27px;
+  top: 4px;
+  background: var(--primary-blue);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 0 2px var(--primary-blue);
+}
+
+.pets-timeline-content {
+  background: var(--bg-light);
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+}
+
+.pets-timeline-vaccine {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin: 0 0 6px 0;
+}
+
+.pets-timeline-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 8px 0;
+  display: flex;
+  gap: 14px;
+}
+
+.pets-timeline-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pets-badge-status-applied {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-green);
+  background: var(--badge-green-bg);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.pets-no-history {
+  text-align: center;
+  padding: 30px 0;
+  color: var(--text-muted);
+}
+
+.pets-no-history p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-slate);
+}

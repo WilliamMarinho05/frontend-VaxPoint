@@ -1,0 +1,156 @@
+/* =========================================
+   ESTILOS GLOBAIS DE OVERLAY E ANIMAÇÃO
+========================================= */
+.pets-modal-overlay {
+  font-family: var(--font-main);
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 16px; /* Evita que o modal encoste nas bordas físicas da tela */
+}
+
+.pets-modal-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  width: 100%;
+  max-height: 90vh; /* Garante que o modal nunca passe de 90% da altura da tela */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: petFadeIn 0.25s ease-out;
+}
+
+.pets-modal-card.wide {
+  max-width: 650px;
+}
+
+@keyframes petFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.pets-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0; /* Impede o cabeçalho de amassar se a tela for muito pequena */
+}
+
+.pets-modal-header h3 {
+  font-size: 18px;
+  color: var(--dark-blue);
+  margin: 0;
+  font-weight: 700;
+}
+
+.pets-modal-close-icon {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+/* =========================================
+   ESTILOS EXCLUSIVOS DO FORMULÁRIO
+========================================= */
+.pets-modal-form {
+  padding: 24px;
+  text-align: left;
+  overflow-y: auto; /* Adiciona a barra de rolagem apenas aqui se o form for maior que a tela */
+  flex-grow: 1; /* Faz o formulário ocupar o espaço disponível responsivamente */
+}
+
+.pets-upload-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.pets-upload-dropzone {
+  width: 90px; /* Reduzido levemente para economizar espaço vertical */
+  height: 90px;
+  border: 2px dashed var(--border-light);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-light);
+}
+
+.pets-upload-preview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pets-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px; /* Diminuído de 16px para 14px */
+}
+
+@media (max-width: 600px) {
+  .pets-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pets-input-group {
+  margin-bottom: 10px; /* Diminuído de 12px para 10px */
+}
+
+.pets-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-slate);
+  margin-bottom: 4px;
+}
+
+.pets-input {
+  width: 100%;
+  padding: 9px; /* Levemente mais compacto */
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: var(--bg-card);
+  color: var(--dark-blue);
+}
+
+.pets-input:focus {
+  border-color: var(--primary-green);
+  outline: none;
+}
+
+.pets-btn-submit-modal {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background 0.2s;
+}
+
+.pets-btn-submit-modal:hover {
+  background-color: var(--brand-blue);
+}
