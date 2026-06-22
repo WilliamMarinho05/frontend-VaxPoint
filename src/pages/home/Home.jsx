@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Calendar, Map, AlertTriangle, ChevronLeft, ChevronRight, Search, CheckCircle, Filter, Clock } from 'lucide-react';
+import { MapPin, Calendar, Map, AlertTriangle, ChevronLeft, ChevronRight, Search, CheckCircle, Filter } from 'lucide-react';
+import { buscarPostos, buscarCampanhas } from '../../services/infoService';
+import ModalPosto from '../../components/ModalPosto'; 
 import './Home.css';
 
 function Home() {
   const [usuario, setUsuario] = useState({ nome: 'Maria Clara' });
   const [currentBanner, setCurrentBanner] = useState(0);
   const [abaAtiva, setAbaAtiva] = useState('postos');
+
+  // Estados de dados da API
+  const [postos, setPostos] = useState([]);
+  const [campanhas, setCampanhas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Filtros e Modais
   const [filtroBusca, setFiltroBusca] = useState('');
@@ -27,85 +34,48 @@ function Home() {
     }
   }, []);
 
-  const [campanhas] = useState([
-    {
-      id: 1,
-      titulo: "Campanha Antirrábica 2026",
-      publico: "🐶 Cães e Gatos",
-      periodo: "01 de Junho a 30 de Junho",
-      descricao: "Proteja o seu melhor amigo!",
-      vacinaNome: "Antirrábica",
-      imagemUrl: "https://images.unsplash.com/photo-1581888227599-779811939961?auto=format&fit=crop&w=1200&q=80"
-    },
-    {
-      id: 2,
-      titulo: "Mobilização Nacional Contra a Gripe",
-      publico: "👥 População Geral",
-      periodo: "Permanente",
-      descricao: "Campanha de imunização anual.",
-      vacinaNome: "Gripe (Influenza)",
-      imagemUrl: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80"
-    },
-    {
-      id: 3,
-      titulo: "Vacinação Infantil",
-      publico: "👶 Crianças",
-      periodo: "15 de Julho a 31 de Agosto",
-      descricao: "Atualização da caderneta infantil.",
-      vacinaNome: "Tríplice Viral / BCG",
-      imagemUrl: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1200&q=80"
-    }
-  ]);
+  useEffect(() => {
+    const carregarDados = async () => {
+      try {
+        const [postosData, campanhasData] = await Promise.all([
+          buscarPostos(),
+          buscarCampanhas()
+        ]);
 
-  const [postos] = useState([
-    {
-      id: 101,
-      nome: "USF 307 Norte (Posto Central)",
-      endereco: "Arno 33, Alameda 2, Palmas - TO",
-      regiao: "Norte",
-      horario: "07:00 às 19:00",
-      linkGoogleMaps: "https://www.google.com/maps/search/?api=1&query=USF+307+Norte+Palmas+TO",
-      alertaInstabilidade: false,
-      vacinasEstoque: ["Antirrábica", "Gripe (Influenza)", "Tríplice Viral", "Covid-19"]
-    },
-    {
-      id: 102,
-      nome: "Centro de Saúde das Arnos (Parque)",
-      endereco: "Arno 42, APM 05, Palmas - TO",
-      regiao: "Norte",
-      horario: "08:00 às 18:00",
-      linkGoogleMaps: "https://www.google.com/maps/search/?api=1&query=Centro+de+Saude+Arno+Palmas+TO",
-      alertaInstabilidade: true,
-      vacinasEstoque: ["Antirrábica", "Tríplice Viral"]
-    },
-    {
-      id: 103,
-      nome: "USF Taquaralto",
-      endereco: "Taquaralto, Palmas - TO",
-      regiao: "Sul",
-      horario: "07:00 às 17:00",
-      linkGoogleMaps: "https://www.google.com/maps/search/?api=1&query=Taquaralto+Palmas+TO",
-      alertaInstabilidade: false,
-      vacinasEstoque: ["Gripe (Influenza)", "Covid-19", "Febre Amarela"]
-    }
-  ]);
+        setPostos(postosData || []);
+        setCampanhas(campanhasData || []);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarDados();
+  }, []);
 
   useEffect(() => {
+    if (campanhas.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentBanner((prev) =>
         prev === campanhas.length - 1 ? 0 : prev + 1
       );
     }, 5000);
     return () => clearInterval(interval);
-  }, [campanhas.length]);
+  }, [campanhas]);
 
   const nextBanner = () => {
+    if (campanhas.length === 0) return;
+
     setCurrentBanner((prev) =>
       prev === campanhas.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevBanner = () => {
+    if (campanhas.length === 0) return;
+
     setCurrentBanner((prev) =>
       prev === 0 ? campanhas.length - 1 : prev - 1
     );
@@ -119,15 +89,16 @@ function Home() {
   };
 
   const postosFiltrados = postos.filter(posto => {
-    const matchBusca = posto.nome.toLowerCase().includes(filtroBusca.toLowerCase()) || 
-                        posto.vacinasEstoque.some(v => v.toLowerCase().includes(filtroBusca.toLowerCase()));
-    const matchRegiao = filtroRegiao === '' || posto.regiao === filtroRegiao;
-    return matchBusca && matchRegiao;
+      const termo = filtroBusca.toLowerCase();
+      const nome = (posto?.nome || '').toLowerCase();
+      const endereco = (posto?.endereco || '').toLowerCase();
+      
+      return nome.includes(termo) || endereco.includes(termo);
   });
 
   const campanhasFiltradas = campanhas.filter(campanha =>
-    campanha.titulo.toLowerCase().includes(filtroBusca.toLowerCase()) ||
-    campanha.vacinaNome.toLowerCase().includes(filtroBusca.toLowerCase())
+    (campanha?.titulo || '').toLowerCase().includes(filtroBusca.toLowerCase()) ||
+    (campanha?.vacinaNome || '').toLowerCase().includes(filtroBusca.toLowerCase())
   );
 
   const handleSalvarIntencao = (e) => {
@@ -148,7 +119,7 @@ function Home() {
         </div>
       )}
 
-      {/* 🔵 BLOCO 1: HEADER + CARROSSEL */}
+      {/* BLOCO 1: HEADER + CARROSSEL */}
       <section className="home-hero">
         <header className="home-banner">
           <div className="home-welcome-text">
@@ -173,22 +144,28 @@ function Home() {
 
             <div className="carousel-viewport">
               <div className="carousel-track">
-                {campanhas.map((campanha, index) => (
-                  <div
-                    key={campanha.id}
-                    className={`carousel-slide ${getPosition(index)}`}
-                  >
-                    <img
-                      src={campanha.imagemUrl}
-                      className="carousel-image"
-                      alt={campanha.titulo}
-                    />
-                    <div className="carousel-info">
-                      <h3>{campanha.titulo}</h3>
-                      <p>{campanha.publico}</p>
+                {campanhas.length > 0 ? (
+                  campanhas.map((campanha, index) => (
+                    <div
+                      key={campanha.id}
+                      className={`carousel-slide ${getPosition(index)}`}
+                    >
+                      <img
+                        src={campanha.imagemUrl}
+                        className="carousel-image"
+                        alt={campanha.titulo}
+                      />
+                      <div className="carousel-info">
+                        <h3>{campanha.titulo}</h3>
+                        <p>{campanha.publico}</p>
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="carousel-empty">
+                    Nenhuma campanha disponível.
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
@@ -199,7 +176,7 @@ function Home() {
         </section>
       </section>
 
-      {/* 🟡 BLOCO 2: FILTROS INTEGRADOS */}
+      {/* BLOCO 2: FILTROS INTEGRADOS */}
       <section className="home-controls-wrapper">
         <div className="home-controls">
           <div className="toggle-switch-container">
@@ -248,7 +225,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 🟢 BLOCO 3: CONTEÚDO */}
+      {/* BLOCO 3: CONTEÚDO */}
       <main className="home-main-content">
         {abaAtiva === 'postos' ? (
           <section className="home-section animate-fade">
@@ -258,9 +235,9 @@ function Home() {
                 className="home-card-posto-linear" 
                 onClick={() => setPostoSelecionado(posto)}
               >
-                {posto.alertaInstabilidade && (
+                {Boolean(posto.alertaInstabilidade) && (
                   <div className="home-alerta-estoque-box" onClick={(e) => e.stopPropagation()}>
-                    <AlertTriangle size={18} />
+                    <AlertTriangle size={20} />
                     <span>
                       <strong>Alerta Comunitário:</strong> Relato de falta de estoque hoje!
                     </span>
@@ -330,36 +307,22 @@ function Home() {
         )}
       </main>
 
-      {/* MODAL PERFIL DO POSTO */}
-      {postoSelecionado && (
-        <div className="home-modal-overlay" onClick={() => setPostoSelecionado(null)}>
-          <div className="home-modal-card" onClick={(e) => e.stopPropagation()}>
-            <h3>{postoSelecionado.nome}</h3>
-            <p className="home-modal-address">📍 {postoSelecionado.endereco}</p>
-            <div className="home-modal-badge"><Clock size={14} /> Horário: {postoSelecionado.horario}</div>
-            
-            <hr className="home-modal-divider" />
-            
-            <h4>📋 Vacinas Disponíveis em Estoque:</h4>
-            <div className="home-modal-stocks-grid">
-              {postoSelecionado.vacinasEstoque.map((v, i) => (
-                <div key={i} className="home-stock-item-tag">✓ {v}</div>
-              ))}
-            </div>
-
-            <button className="home-modal-btn-close" onClick={() => setPostoSelecionado(null)}>Fechar</button>
-          </div>
-        </div>
-      )}
+      {/* MODAL DO POSTO (IMPORTADO E SEGURO) */}
+      <ModalPosto 
+        posto={postoSelecionado} 
+        onClose={() => setPostoSelecionado(null)} 
+      />
 
       {/* MODAL INTENÇÃO */}
       {intencaoVacina && (
         <div className="home-modal-overlay" onClick={() => setIntencaoVacina(null)}>
           <div className="home-modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Confirmar Intenção</h3>
-            <p style={{ margin: '10px 0', color: '#475569' }}>Deseja registrar interesse na vacina: <strong>{intencaoVacina.vacinaNome}</strong>?</p>
+            <p className="home-modal-text">
+              Deseja registrar interesse na vacina: <strong>{intencaoVacina.vacinaNome || intencaoVacina.titulo}</strong>?
+            </p>
             
-            <form onSubmit={handleSalvarIntencao} style={{ marginTop: '15px' }}>
+            <form onSubmit={handleSalvarIntencao} className="home-modal-form">
               <label className="home-modal-label">Quem irá tomar a vacina?</label>
               <select 
                 required

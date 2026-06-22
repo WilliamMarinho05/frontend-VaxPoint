@@ -1,0 +1,114 @@
+.modal-posto-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.4); /* Fundo escurecido padrão */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3500;
+}
+
+.modal-posto-card {
+  background-color: var(--bg-card);
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-main);
+}
+
+.modal-posto-title {
+  margin: 0 0 12px 0;
+  color: var(--dark-blue);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.modal-posto-text {
+  margin: 0 0 16px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.modal-posto-icon-margin {
+  margin-right: 6px;
+}
+
+.modal-posto-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--badge-green-bg);
+  color: var(--primary-green);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.modal-posto-divider {
+  border: 0;
+  border-top: 1px solid var(--border-light);
+  margin: 0 0 20px 0;
+}
+
+.modal-posto-subtitle {
+  margin: 0 0 14px 0;
+  color: var(--dark-blue);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-posto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 480px) {
+  .modal-posto-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-posto-tag {
+  background-color: var(--badge-green-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  color: var(--text-slate);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.modal-posto-check {
+  color: var(--primary-green);
+  font-weight: bold;
+}
+
+.modal-posto-btn-close {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--text-muted);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-posto-btn-close:hover {
+  background-color: var(--dark-blue);
+}
