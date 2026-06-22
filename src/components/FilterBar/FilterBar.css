@@ -13,6 +13,14 @@
   gap: 16px;
 }
 
+/* Nova linha flex superior que alinha Abas na esquerda e Filtros na direita */
+.home-controls-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .home-controls {
   display: flex;
   justify-content: flex-start;
@@ -57,16 +65,16 @@
   box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
 }
 
-.home-search-bar-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 16px;
+/* Nova barra de busca ocupando a largura total */
+.home-search-bar-full {
+  width: 100%;
 }
 
 .home-input-with-icon {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .home-search-icon {
@@ -75,7 +83,7 @@
   color: var(--text-muted);
 }
 
-.home-functional-input, .home-functional-select {
+.home-functional-input {
   width: 100%;
   padding: 12px 14px 12px 42px;
   border-radius: 10px;
@@ -88,11 +96,121 @@
   transition: all 0.2s;
 }
 
-.home-functional-input:focus, .home-functional-select:focus {
+.home-functional-input:focus {
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
-@media (max-width: 768px) {
-  .home-search-bar-grid { grid-template-columns: 1fr; }
+/* Novo Botão de Filtro no Topo Superior Direito */
+.top-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 50px; /* Segue o padrão arredondado das suas abas */
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.top-filter-btn:hover, .top-filter-btn.ativo {
+  color: var(--dark-blue);
+  background: var(--btn-gray-bg);
+  border-color: var(--border-light);
+}
+
+.top-filter-btn.com-filtros-ativos {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.filter-badge {
+  background-color: var(--primary-green);
+  color: var(--bg-card);
+  font-size: 10px;
+  font-weight: bold;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gaveta interna combinando com as variáveis */
+.filter-dropdown-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0 10px 0;
+  border-top: 1px solid var(--border-light);
+  width: 100%;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-group-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--text-muted);
+}
+
+.squares-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Estilo dos Quadradinhos baseados no seu tema */
+.square-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-card);
+  color: var(--dark-blue);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.square-button:hover {
+  background-color: var(--btn-gray-bg);
+}
+
+.square-button.active {
+  background-color: var(--primary-blue);
+  color: var(--bg-card);
+  border-color: var(--primary-blue);
+}
+
+.drawer-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.clear-filters-link {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.clear-filters-link:hover {
+  color: var(--dark-blue);
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 
-import { buscarPostos, buscarCampanhas } from '../../services/infoService';
+import { buscarPostos, buscarCampanhas, registrarIntencaoAPI } from '../../services/infoService';
+import api from '../../services/api'; // Importação da API para buscar pets reais
 
 import ModalPosto from '../../components/ModalPosto/ModalPosto'; 
 import FilterBar from '../../components/FilterBar/FilterBar';
@@ -13,33 +14,45 @@ import ModalIntencao from '../../components/ModalIntencao/ModalIntencao';
 import './Home.css';
 
 function Home() {
-  const [usuario, setUsuario] = useState({ nome: 'Maria Clara' });
+  const [usuario, setUsuario] = useState({ id_usuario: 1, nome: 'Maria Clara' });
   const [abaAtiva, setAbaAtiva] = useState('postos');
 
   // Estados de dados da API
   const [postos, setPostos] = useState([]);
   const [campanhas, setCampanhas] = useState([]);
+  const [meusPets, setMeusPets] = useState([]);
+  
+  // Listas de vacinas separadas dinamicamente
+  const [vacinasHumanas, setVacinasHumanas] = useState([]);
+  const [vacinasPets, setVacinasPets] = useState([]);
+  
   const [loading, setLoading] = useState(true);
 
-  // Filtros e Modais
-  const [filtroBusca, setFiltroBusca] = useState('');
-  const [filtroRegiao, setFiltroRegiao] = useState('');
+  // Filtros Estruturados
+  const [filtroBusca, setFiltroBusca] = useState(''); 
+  const [vacinasSelecionadas, setVacinasSelecionadas] = useState([]); 
+  const [filtroRegiao, setFiltroRegiao] = useState(''); 
+  const [filtroPublico, setFiltroPublico] = useState(''); // 'Humano', 'Cachorro' ou 'Gato'
+  
+  // Modais e Toasts
   const [postoSelecionado, setPostoSelecionado] = useState(null);
   const [intencaoVacina, setIntencaoVacina] = useState(null);
   const [mensagemSucesso, setMensagemSucesso] = useState('');
 
-  const meusPets = [
-    { id: 'pet1', nome: 'Thor (Cachorro)' },
-    { id: 'pet2', nome: 'Luna (Gata)' }
-  ];
-
+  // 1. Carrega dados do Usuário do LocalStorage e busca os pets dele do banco real
   useEffect(() => {
     const userLogado = JSON.parse(localStorage.getItem('vaxpoint_user'));
     if (userLogado) {
       setUsuario(userLogado);
+      
+      const idDono = userLogado.id_usuario || userLogado.id || 1;
+      api.get(`/pets/${idDono}`)
+        .then(res => setMeusPets(res.data || []))
+        .catch(err => console.error("Erro ao buscar pets reais do usuário:", err));
     }
   }, []);
 
+  // 2. Carrega Postos e Campanhas do Banco
   useEffect(() => {
     const carregarDados = async () => {
       try {
@@ -50,6 +63,25 @@ function Home() {
 
         setPostos(postosData || []);
         setCampanhas(campanhasData || []);
+
+        // Mapeia vacinas humanas vindas do estoque real dos postos
+        const vHumanas = [];
+        postosData.forEach(p => {
+          p.vacinas?.forEach(v => {
+            if (!vHumanas.includes(v.nome)) vHumanas.push(v.nome);
+          });
+        });
+        setVacinasHumanas(vHumanas);
+
+        // Mapeia vacinas de animais extraídas das campanhas cadastradas no banco
+        const vPets = [];
+        campanhasData.forEach(c => {
+          if ((c.publico === 'Cachorro' || c.publico === 'Gato') && c.vacinaNome) {
+            if (!vPets.includes(c.vacinaNome)) vPets.push(c.vacinaNome);
+          }
+        });
+        setVacinasPets(vPets);
+
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       } finally {
@@ -60,13 +92,14 @@ function Home() {
     carregarDados();
   }, []);
 
+  // 3. Filtragem de Postos Fixo (Apenas Vacinas Humanas)
   const postosFiltrados = postos.filter(posto => {
     const termo = filtroBusca.toLowerCase();
     const nome = (posto?.nome || '').toLowerCase();
     const endereco = (posto?.endereco || '').toLowerCase();
     
-    const bateComBusca = nome.includes(termo) || endereco.includes(termo);
-    
+    const bateComTexto = nome.includes(termo) || endereco.includes(termo);
+
     let bateComRegiao = true;
     if (filtroRegiao === 'Norte') {
       bateComRegiao = endereco.includes('norte');
@@ -74,19 +107,72 @@ function Home() {
       bateComRegiao = !endereco.includes('norte');
     }
 
-    return bateComBusca && bateComRegiao;
+    let bateComVacinas = true;
+    if (vacinasSelecionadas.length > 0) {
+      bateComVacinas = vacinasSelecionadas.some(vacinaNome => 
+        posto?.vacinas?.some(v => v.nome === vacinaNome && v.quantidade > 0)
+      );
+    }
+
+    return bateComTexto && bateComRegiao && bateComVacinas;
   });
 
-  const campanhasFiltradas = campanhas.filter(campanha =>
-    (campanha?.titulo || '').toLowerCase().includes(filtroBusca.toLowerCase()) ||
-    (campanha?.vacinaNome || '').toLowerCase().includes(filtroBusca.toLowerCase())
-  );
+  // 4. Filtragem Inteligente de Campanhas Cruzando Dados de Postos Parceiros
+  const campanhasFiltradas = campanhas.filter(campanha => {
+    const termo = filtroBusca.toLowerCase();
+    const bateComTexto = (campanha?.titulo || '').toLowerCase().includes(termo) ||
+                         (campanha?.vacinaNome || '').toLowerCase().includes(termo);
 
-  const lidarComSucessoIntencao = (nomeDestinatario) => {
-    setMensagemSucesso(`Intenção para "${nomeDestinatario}" registrada com sucesso!`);
-    setIntencaoVacina(null);
-    setTimeout(() => setMensagemSucesso(''), 5000);
+    let bateComPublico = true;
+    if (filtroPublico) {
+      bateComPublico = campanha.publico === filtroPublico;
+    }
+
+    let bateComRegiao = true;
+    if (filtroRegiao && campanha.postos) {
+      if (filtroRegiao === 'Norte') {
+        bateComRegiao = campanha.postos.some(p => (p.endereco || '').toLowerCase().includes('norte'));
+      } else if (filtroRegiao === 'Sul') {
+        bateComRegiao = campanha.postos.some(p => !(p.endereco || '').toLowerCase().includes('norte'));
+      }
+    }
+
+    let bateComVacinas = true;
+    if (vacinasSelecionadas.length > 0) {
+      bateComVacinas = vacinasSelecionadas.includes(campanha.vacinaNome);
+    }
+
+    return bateComTexto && bateComPublico && bateComRegiao && bateComVacinas;
+  });
+
+  const lidarComSucessoIntencao = async (nomeDestinatario, targetVacina, idPostoEscolhido) => {
+    try {
+      const dadosParaEnviar = {
+        idUsuario: usuario.id_usuario || usuario.id || 1,
+        idPosto: parseInt(idPostoEscolhido),
+        idVacina: intencaoVacina.id_vacina, // Captura ID correto mapeado no infoRoutes
+        idCampanha: intencaoVacina.id,      // Passa o id se vier de campanha
+        idPet: targetVacina === 'humano' ? null : parseInt(targetVacina)
+      };
+
+      const resultado = await registrarIntencaoAPI(dadosParaEnviar);
+
+      if (resultado.success) {
+        setMensagemSucesso(`Intenção para "${nomeDestinatario}" registrada com sucesso!`);
+        setIntencaoVacina(null);
+        setTimeout(() => setMensagemSucesso(''), 5000);
+      } else {
+        alert("Erro ao salvar intenção.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Houve um erro de comunicação ao salvar a intenção.");
+    }
   };
+
+  if (loading) {
+    return <div className="loading-placeholder">Carregando dados do VaxPoint...</div>;
+  }
 
   return (
     <div className="home-container">
@@ -96,74 +182,69 @@ function Home() {
         </div>
       )}
 
-      {/* BLOCO 1: HEADER + CARROSSEL */}
       <section className="home-hero">
         <header className="home-banner">
           <div className="home-welcome-text">
-            <h2 className="home-greeting">
-              Olá, {usuario.nome.split(' ')[0]}
-            </h2>
-            <p className="home-subtitle">
-              Veja as campanhas e postos disponíveis em Palmas
-            </p>
+            <h2 className="home-greeting">Olá, {usuario.nome?.split(' ')[0]}</h2>
+            <p className="home-subtitle">Veja as campanhas e postos disponíveis em Palmas</p>
           </div>
         </header>
 
         <section className="carousel-section">
-          <div className="carousel-header">
-            <h2>Campanhas</h2>
-          </div>
-          <Carousel campanhas={campanhas} />
+          <div className="carousel-header"><h2>Campanhas em Destaque</h2></div>
+          <Carousel 
+            campanhas={[...campanhas]
+              .sort((a, b) => b.id - a.id) // Ordena da mais recente para a mais antiga
+              .slice(0, 5)                  // Pega no máximo as 5 primeiras
+            } 
+          />
         </section>
       </section>
 
-      {/* BLOCO 2: FILTROS */}
       <FilterBar 
         abaAtiva={abaAtiva}
         setAbaAtiva={setAbaAtiva}
         filtroBusca={filtroBusca}
         setFiltroBusca={setFiltroBusca}
+        vacinasHumanas={vacinasHumanas}
+        vacinasPets={vacinasPets}
+        vacinasSelecionadas={vacinasSelecionadas}
+        setVacinasSelecionadas={setVacinasSelecionadas}
         filtroRegiao={filtroRegiao}
         setFiltroRegiao={setFiltroRegiao}
+        filtroPublico={filtroPublico}
+        setFiltroPublico={setFiltroPublico}
       />
 
-      {/* BLOCO 3: CONTEÚDO (POSTOS / CAMPANHAS) */}
       <main className="home-main-content">
         {abaAtiva === 'postos' ? (
           <section className="home-section animate-fade">
             {postosFiltrados.map(posto => (
-              <PostoCard 
-                key={posto.id}
-                posto={posto}
-                onClick={() => setPostoSelecionado(posto)}
-              />
+              <PostoCard key={posto.id} posto={posto} onClick={() => setPostoSelecionado(posto)} />
             ))}
+            {postosFiltrados.length === 0 && (
+              <p className="no-data-alert">Nenhum posto encontrado com os filtros selecionados.</p>
+            )}
           </section>
         ) : (
           <section className="home-section animate-fade">
             {campanhasFiltradas.map(campanha => (
-              <CampanhaCard 
-                key={campanha.id}
-                campanha={campanha}
-                onRegistrarIntencao={setIntencaoVacina}
-              />
+              <CampanhaCard key={campanha.id} campanha={campanha} onRegistrarIntencao={setIntencaoVacina} />
             ))}
+            {campanhasFiltradas.length === 0 && (
+              <p className="no-data-alert">Nenhuma campanha encontrada com os filtros selecionados.</p>
+            )}
           </section>
         )}
       </main>
 
-      {/* MODAIS */}
-      <ModalPosto 
-        posto={postoSelecionado} 
-        onClose={() => setPostoSelecionado(null)} 
-      />
-
+      <ModalPosto posto={postoSelecionado} onClose={() => setPostoSelecionado(null)} />
       <ModalIntencao 
-        intencaoVacina={intencaoVacina}
-        usuario={usuario}
-        meusPets={meusPets}
-        onClose={() => setIntencaoVacina(null)}
-        onSucesso={lidarComSucessoIntencao}
+        intencaoVacina={intencaoVacina} 
+        usuario={usuario} 
+        meusPets={meusPets} 
+        onClose={() => setIntencaoVacina(null)} 
+        onSucesso={lidarComSucessoIntencao} 
       />
     </div>
   );

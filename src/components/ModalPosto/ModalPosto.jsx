@@ -5,8 +5,8 @@ export default function ModalPosto({ posto, onClose }) {
     // Defesa: se não houver posto selecionado, não renderiza nada
     if (!posto) return null;
 
-    // Lista de vacinas padrão (plano de fuga se o banco não trouxer dados)
-    const vacinasPadrao = ["Antirrábica", "Gripe (Influenza)", "Tríplice Viral", "Covid-19"];
+    // Pega as vacinas reais vindas do banco de dados (se não existirem, deixa um array vazio)
+    const vacinasReais = posto.vacinas || [];
 
     return (
         <div className="modal-posto-overlay" onClick={onClose}>
@@ -27,11 +27,33 @@ export default function ModalPosto({ posto, onClose }) {
                 <h4 className="modal-posto-subtitle">📋 Vacinas Disponíveis em Estoque:</h4>
                 
                 <div className="modal-posto-grid">
-                    {vacinasPadrao.map((vacina, index) => (
-                        <div key={index} className="modal-posto-tag">
-                            <span className="modal-posto-check">✓</span> {vacina}
-                        </div>
-                    ))}
+                    {vacinasReais.length > 0 ? (
+                        vacinasReais.map((vacina, index) => {
+                            const temEstoque = vacina.quantidade > 0;
+                            
+                            return (
+                                <div 
+                                    key={index} 
+                                    className={`modal-posto-tag ${!temEstoque ? 'esgotada' : ''}`}
+                                    title={temEstoque ? `${vacina.quantidade} doses disponíveis` : 'Estoque zerado'}
+                                >
+                                    {temEstoque ? (
+                                        <>
+                                            <span className="modal-posto-check">✓</span> 
+                                            {vacina.nome} <small>({vacina.quantidade} un)</small>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span className="modal-posto-x">✕</span> 
+                                            <span className="riscado">{vacina.nome}</span> <small>(Esgotada)</small>
+                                        </>
+                                    )}
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <p className="modal-posto-no-data">Nenhuma vacina cadastrada para este posto.</p>
+                    )}
                 </div>
 
                 <button className="modal-posto-btn-close" onClick={onClose}>
