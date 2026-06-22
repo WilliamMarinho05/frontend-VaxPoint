@@ -1,0 +1,90 @@
+/* =========================================
+   ESTILOS COMPARTILHADOS DE TEXTO DOS CARDS
+========================================= */
+.card-texto-alinhado {
+  text-align: left;
+  flex: 1;
+}
+
+.home-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin: 0 0 8px 0;
+}
+
+.home-card-periodo, 
+.home-card-desc {
+  font-size: 1rem;
+  margin: 6px 0;
+  color: var(--text-slate);
+}
+
+
+/* =========================================
+   ESTILOS ESPECÍFICOS DO CAMPANHA CARD
+========================================= */
+.home-card-campanha-linear {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.lista-campanha-thumb {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.campanha-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-badge-publico {
+  background: var(--badge-blue-bg);
+  color: var(--primary-blue);
+  border: 1px solid var(--badge-blue-border);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.home-btn-registrar-intencao {
+  margin-top: 12px;
+  background: var(--primary-blue);
+  color: var(--bg-card);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.home-btn-registrar-intencao:hover { 
+  background: var(--brand-blue); 
+}
+
+
+/* =========================================
+   RESPONSIVIDADE DO COMPONENTE (CELULAR)
+========================================= */
+@media (max-width: 600px) {
+  .home-card-campanha-linear { 
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+  
+  .lista-campanha-thumb { 
+    width: 100%; 
+    height: 160px; 
+  }
+}

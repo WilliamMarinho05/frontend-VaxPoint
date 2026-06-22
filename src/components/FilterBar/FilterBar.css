@@ -1,0 +1,98 @@
+/* =========================================
+   CONTROLES E BARRA DE PESQUISA (FILTROS)
+========================================= */
+.home-controls-wrapper {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-light);
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-controls {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.toggle-switch-container {
+  display: inline-flex;
+  background: var(--btn-gray-bg);
+  border: 1px solid var(--border-light);
+  padding: 4px;
+  border-radius: 50px; 
+}
+
+.toggle-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-postos { border-radius: 50px 0 0 50px; }
+.btn-campanhas { border-radius: 0 50px 50px 0; }
+.toggle-tab:hover:not(.ativa) { color: var(--dark-blue); }
+
+.btn-postos.ativa {
+  background: var(--primary-green);
+  color: var(--bg-card);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.btn-campanhas.ativa {
+  background: var(--primary-blue);
+  color: var(--bg-card);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+}
+
+.home-search-bar-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.home-input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.home-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+}
+
+.home-functional-input, .home-functional-select {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+  outline: none;
+  background: var(--bg-card);
+  color: var(--dark-blue);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.01) inset;
+  transition: all 0.2s;
+}
+
+.home-functional-input:focus, .home-functional-select:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .home-search-bar-grid { grid-template-columns: 1fr; }
+}
