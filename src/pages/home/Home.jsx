@@ -4,11 +4,11 @@ import { CheckCircle } from 'lucide-react';
 import { buscarPostos, buscarCampanhas, registrarIntencaoAPI } from '../../services/infoService';
 import api from '../../services/api'; // Importação da API para buscar pets reais
 
-import ModalPosto from '../../components/ModalPosto/ModalPosto'; 
-import FilterBar from '../../components/FilterBar/FilterBar';
-import PostoCard from '../../components/PostoCard/PostoCard';
-import CampanhaCard from '../../components/CampanhaCard/CampanhaCard';
-import Carousel from '../../components/Carousel/Carousel'; 
+import ModalPosto from './components/ModalPosto/ModalPosto'; 
+import FilterBar from './components/FilterBar/FilterBar';
+import PostoCard from './components/PostoCard/PostoCard';
+import CampanhaCard from './components/CampanhaCard/CampanhaCard';
+import Carousel from './components/Carousel/Carousel'; 
 import ModalIntencao from '../../components/ModalIntencao/ModalIntencao';
 
 import './Home.css';
