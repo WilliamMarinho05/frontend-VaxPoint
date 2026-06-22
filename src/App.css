@@ -12,13 +12,29 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', 'Poppins', sans-serif;
 }
 
 body {
   background-color: var(--bg-light);
   color: var(--dark-blue);
   overflow-x: hidden;
+  
+  /* Definição da fonte principal carregada e fallbacks do sistema */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Melhora a renderização de fontes digitais em telas modernas */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Força campos de formulário e botões a herdarem a fonte profissional */
+input, select, textarea, button {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Suavização de títulos para um design mais limpo */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
 }
 
 /* Utilitário para a Logo */
@@ -38,7 +54,7 @@ body {
   font-size: 24px;
   font-weight: 700;
   color: var(--dark-blue);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.03em; /* Ajuste sutil na logo */
 }
 
 .logo-text span {

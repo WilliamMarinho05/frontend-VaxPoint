@@ -6,6 +6,15 @@
 
 .admin-header {
   margin-bottom: 30px;
+  text-align: left;
+}
+
+.admin-header-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .admin-title {
@@ -17,23 +26,148 @@
 }
 
 .admin-subtitle {
-  color: var(--text-muted);
+  color: #64748b;
   font-size: 15px;
   margin-top: 5px;
 }
 
+.admin-badge-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ESTILOS DOS CARDS DE MÉTRICAS */
+.admin-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.metric-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  text-align: left;
+}
+
+.metric-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-icon-wrapper.blue { background: #eff6ff; color: #007bff; }
+.metric-icon-wrapper.green { background: #ecfdf5; color: #10b981; }
+.metric-icon-wrapper.orange { background: #fffbeb; color: #f59e0b; }
+.metric-icon-wrapper.red { background: #fef2f2; color: #ef4444; }
+
+.metric-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--dark-blue);
+  margin: 2px 0 0 0;
+}
+
+/* ESTILOS DO SEÇÃO DO GRÁFICO */
+.admin-chart-section {
+  margin-bottom: 30px;
+}
+
+.admin-chart-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: -15px 0 20px 0;
+  text-align: left;
+}
+
+.admin-chart-bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.chart-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.chart-bar-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.chart-vacine-name {
+  font-weight: 600;
+  color: #334155;
+}
+
+.chart-vacine-qty {
+  color: #64748b;
+}
+
+.chart-bar-bg {
+  width: 100%;
+  height: 10px;
+  background-color: #f1f5f9;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.chart-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+}
+
+/* GRID ORIGINAL DOS DOIS FORMULÁRIOS */
 .admin-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
 }
 
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .admin-card {
-  background-color: var(--bg-card);
+  background-color: #ffffff;
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--border-light);
+  border: 1px solid #e2e8f0;
 }
 
 .admin-card-title {
@@ -44,10 +178,12 @@
   font-weight: 700;
   margin-bottom: 20px;
   color: var(--dark-blue);
+  text-align: left;
 }
 
 .admin-group {
   margin-bottom: 15px;
+  text-align: left;
 }
 
 .admin-label {
@@ -55,29 +191,23 @@
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: var(--text-slate);
+  color: #475569;
 }
 
-.admin-select {
+.admin-select, .admin-input {
   width: 100%;
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid var(--border-light);
-  background-color: var(--bg-light-hover);
+  border: 1px solid #cbd5e1;
   outline: none;
   font-size: 14px;
   color: var(--dark-blue);
+  background-color: #ffffff;
+  box-sizing: border-box;
 }
 
-.admin-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border-light);
-  outline: none;
-  background-color: var(--bg-light-hover);
-  font-size: 14px;
-  color: var(--dark-blue);
+.admin-select:focus, .admin-input:focus {
+  border-color: var(--brand-blue, #007BFF);
 }
 
 .admin-textarea {
@@ -88,7 +218,7 @@
 .admin-btn {
   width: 100%;
   padding: 12px;
-  color: var(--bg-card);
+  color: #ffffff;
   border: none;
   border-radius: 6px;
   font-weight: 600;
@@ -102,9 +232,18 @@
 }
 
 .admin-btn-danger {
-  background-color: var(--admin-danger);
+  background-color: #DC2626;
 }
 
 .admin-btn-primary {
-  background-color: var(--brand-blue);
+  background-color: #007BFF;
+}
+
+.animate-fade {
+  animation: adminFade 0.3s ease-out;
+}
+
+@keyframes adminFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
