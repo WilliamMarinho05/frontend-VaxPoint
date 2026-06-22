@@ -1,10 +1,13 @@
+/* --- Cadastro.css --- */
+
 .cadastro-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   background-color: var(--bg-light);
-  padding: 20px;
+  padding: 40px 20px; /* Aumentado o padding para dar respiro nas extremidades */
+  overflow-y: auto;   /* Permite a rolagem na página se o card for maior que a tela */
 }
 
 .cadastro-card {
@@ -16,6 +19,7 @@
   max-width: 420px;
   text-align: center;
   position: relative;
+  margin: auto; /* Garante centralização perfeita ao rolar */
 }
 
 .cadastro-back-button {
@@ -71,10 +75,12 @@
   border: 1px solid var(--border-light);
   border-radius: 8px;
   padding: 10px 15px;
+  transition: all 0.2s ease-in-out;
 }
 
 .cadastro-icon {
   margin-right: 10px;
+  flex-shrink: 0; /* Impede o ícone de esmagar */
 }
 
 .cadastro-input {
@@ -84,6 +90,33 @@
   width: 100%;
   color: var(--dark-blue);
   font-size: 15px;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   MELHORIA DO SELECT (Removendo bordas nativas e o outline feio ao focar)
+   ========================================================================== */
+select.cadastro-input {
+  appearance: none;       /* Remove a seta padrão estilizada pelo sistema operacional */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;          /* Remove a borda azul/preta de foco nativa */
+  border: none;
+  background: transparent;
+  padding-right: 20px;
+  /* Adiciona uma setinha sutil customizada via SVG para indicar que é um select */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 16px;
+}
+
+/* Remove qualquer borda ou outline das opções internas do select */
+select.cadastro-input option {
+  background-color: var(--bg-card);
+  color: var(--dark-blue);
+  border: none;
+  outline: none;
 }
 
 .cadastro-btn-primary {
@@ -96,11 +129,7 @@
   font-size: 16px;
   cursor: pointer;
   margin-top: 5px;
-  transition: opacity 0.2s;
-}
-
-.cadastro-btn-primary:hover {
-  opacity: 0.9;
+  transition: all 0.2s;
 }
 
 .cadastro-links-container {
@@ -119,64 +148,58 @@
   text-decoration: underline;
 }
 
-/* --- HOVERS E FEEDBACKS VISUAIS ADICIONAIS --- */
+/* --- HOVERS E FEEDBACKS VISUAIS --- */
 
-/* Efeito de foco nos campos de input (borda acende e o fundo clareia) */
+/* O efeito de foco acontece apenas na caixinha do grupo (input-group) */
 .cadastro-input-group:focus-within {
   border-color: var(--brand-blue);
   background-color: var(--bg-card);
   box-shadow: 0 0 0 3px rgba(1, 57, 145, 0.1);
-  transition: all 0.2s;
 }
 
-/* Efeito ao passar o mouse no botão principal */
 .cadastro-btn-primary:hover {
   opacity: 0.95;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(1, 57, 145, 0.25);
 }
 
-/* Efeito ao passar o mouse no botão de voltar */
 .cadastro-back-button:hover {
   color: var(--brand-blue);
-  transition: color 0.2s;
 }
 
-/* Efeito ao passar o mouse no link de fazer login */
 .cadastro-link:hover {
   opacity: 0.85;
-  transition: opacity 0.2s;
 }
 
-/* --- ADAPTAÇÃO AUTOMÁTICA PARA TELAS MENORES (NOTEBOOKS) --- */
+/* --- RESPONSIVIDADE ADAPTADA --- */
 @media (max-height: 780px) {
   .cadastro-container {
-    padding: 15px; /* Reduz ligeiramente o recuo externo */
+    padding: 20px 15px;
   }
 
   .cadastro-card {
-    padding: 25px 35px; /* Enxuga o excesso de padding vertical do card */
+    padding: 25px 35px;
   }
 
   .cadastro-logo-section {
-    margin-top: 5px;   /* Aproxima o topo do card */
-    margin-bottom: 15px; /* Reduz a distância para o formulário */
+    margin-top: 5px;
+    margin-bottom: 15px;
   }
 
   .cadastro-logo-img {
-    width: 50px; /* Reduz a logo sutilmente em telas pequenas para economizar altura */
+    width: 50px;
     margin-bottom: 5px;
   }
 
   .cadastro-form {
-    gap: 10px; /* Reduz o espaço vazio entre os campos de input */
+    gap: 10px;
   }
 
   .cadastro-input-group {
-    padding: 8px 15px; /* Deixa os inputs ligeiramente menos altos */
+    padding: 8px 15px;
   }
 
   .cadastro-links-container {
-    margin-top: 15px; /* Aproxima o rodapé do botão de enviar */
+    margin-top: 15px;
   }
 }

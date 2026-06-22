@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { CheckCircle } from 'lucide-react';
 
 import { buscarPostos, buscarCampanhas, registrarIntencaoAPI } from '../../services/infoService';
-import api from '../../services/api'; // Importação da API para buscar pets reais
+import api from '../../services/api'; 
 
 import ModalPosto from './components/ModalPosto/ModalPosto'; 
 import FilterBar from './components/FilterBar/FilterBar';
@@ -14,45 +15,47 @@ import ModalIntencao from '../../components/ModalIntencao/ModalIntencao';
 import './Home.css';
 
 function Home() {
-  const [usuario, setUsuario] = useState({ id_usuario: 1, nome: 'Maria Clara' });
-  const [abaAtiva, setAbaAtiva] = useState('postos');
+  const navigate = useNavigate();
 
-  // Estados de dados da API
+  // 1. Inicializa pegando o usuário real do localStorage imediatamente
+  const [usuario, setUsuario] = useState(() => {
+    const salvo = localStorage.getItem('vaxpoint_user');
+    return salvo ? JSON.parse(salvo) : null;
+  });
+
+  const [abaAtiva, setAbaAtiva] = useState('postos');
   const [postos, setPostos] = useState([]);
   const [campanhas, setCampanhas] = useState([]);
   const [meusPets, setMeusPets] = useState([]);
-  
-  // Listas de vacinas separadas dinamicamente
   const [vacinasHumanas, setVacinasHumanas] = useState([]);
   const [vacinasPets, setVacinasPets] = useState([]);
-  
   const [loading, setLoading] = useState(true);
 
-  // Filtros Estruturados
   const [filtroBusca, setFiltroBusca] = useState(''); 
   const [vacinasSelecionadas, setVacinasSelecionadas] = useState([]); 
   const [filtroRegiao, setFiltroRegiao] = useState(''); 
-  const [filtroPublico, setFiltroPublico] = useState(''); // 'Humano', 'Cachorro' ou 'Gato'
+  const [filtroPublico, setFiltroPublico] = useState(''); 
   
-  // Modais e Toasts
   const [postoSelecionado, setPostoSelecionado] = useState(null);
   const [intencaoVacina, setIntencaoVacina] = useState(null);
   const [mensagemSucesso, setMensagemSucesso] = useState('');
 
-  // 1. Carrega dados do Usuário do LocalStorage e busca os pets dele do banco real
+  // 2. Validação rígida de login e carregamento dos pets (UNIFICADO)
   useEffect(() => {
-    const userLogado = JSON.parse(localStorage.getItem('vaxpoint_user'));
-    if (userLogado) {
-      setUsuario(userLogado);
-      
-      const idDono = userLogado.id_usuario || userLogado.id || 1;
+    if (!usuario) {
+      navigate('/login');
+      return;
+    }
+
+    const idDono = usuario.id_usuario || usuario.id;
+    if (idDono) {
       api.get(`/pets/${idDono}`)
         .then(res => setMeusPets(res.data || []))
         .catch(err => console.error("Erro ao buscar pets reais do usuário:", err));
     }
-  }, []);
+  }, [usuario, navigate]);
 
-  // 2. Carrega Postos e Campanhas do Banco
+  // 3. Carrega Postos e Campanhas do Banco
   useEffect(() => {
     const carregarDados = async () => {
       try {
@@ -64,7 +67,6 @@ function Home() {
         setPostos(postosData || []);
         setCampanhas(campanhasData || []);
 
-        // Mapeia vacinas humanas vindas do estoque real dos postos
         const vHumanas = [];
         postosData.forEach(p => {
           p.vacinas?.forEach(v => {
@@ -73,7 +75,6 @@ function Home() {
         });
         setVacinasHumanas(vHumanas);
 
-        // Mapeia vacinas de animais extraídas das campanhas cadastradas no banco
         const vPets = [];
         campanhasData.forEach(c => {
           if ((c.publico === 'Cachorro' || c.publico === 'Gato') && c.vacinaNome) {
@@ -92,7 +93,7 @@ function Home() {
     carregarDados();
   }, []);
 
-  // 3. Filtragem de Postos Fixo (Apenas Vacinas Humanas)
+  // 4. Filtragem de Postos Fixo (Apenas Vacinas Humanas)
   const postosFiltrados = postos.filter(posto => {
     const termo = filtroBusca.toLowerCase();
     const nome = (posto?.nome || '').toLowerCase();
@@ -117,7 +118,7 @@ function Home() {
     return bateComTexto && bateComRegiao && bateComVacinas;
   });
 
-  // 4. Filtragem Inteligente de Campanhas Cruzando Dados de Postos Parceiros
+  // 5. Filtragem Inteligente de Campanhas Cruzando Dados de Postos Parceiros
   const campanhasFiltradas = campanhas.filter(campanha => {
     const termo = filtroBusca.toLowerCase();
     const bateComTexto = (campanha?.titulo || '').toLowerCase().includes(termo) ||
@@ -148,10 +149,10 @@ function Home() {
   const lidarComSucessoIntencao = async (nomeDestinatario, targetVacina, idPostoEscolhido) => {
     try {
       const dadosParaEnviar = {
-        idUsuario: usuario.id_usuario || usuario.id || 1,
+        idUsuario: usuario.id_usuario || usuario.id,
         idPosto: parseInt(idPostoEscolhido),
-        idVacina: intencaoVacina.id_vacina, // Captura ID correto mapeado no infoRoutes
-        idCampanha: intencaoVacina.id,      // Passa o id se vier de campanha
+        idVacina: intencaoVacina.id_vacina, 
+        idCampanha: intencaoVacina.id,      
         idPet: targetVacina === 'humano' ? null : parseInt(targetVacina)
       };
 
@@ -185,7 +186,7 @@ function Home() {
       <section className="home-hero">
         <header className="home-banner">
           <div className="home-welcome-text">
-            <h2 className="home-greeting">Olá, {usuario.nome?.split(' ')[0]}</h2>
+            <h2 className="home-greeting">Olá, {usuario?.nome?.split(' ')[0]}</h2>
             <p className="home-subtitle">Veja as campanhas e postos disponíveis em Palmas</p>
           </div>
         </header>
@@ -194,8 +195,8 @@ function Home() {
           <div className="carousel-header"><h2>Campanhas em Destaque</h2></div>
           <Carousel 
             campanhas={[...campanhas]
-              .sort((a, b) => b.id - a.id) // Ordena da mais recente para a mais antiga
-              .slice(0, 5)                  // Pega no máximo as 5 primeiras
+              .sort((a, b) => b.id - a.id) 
+              .slice(0, 5)                  
             } 
           />
         </section>

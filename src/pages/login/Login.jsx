@@ -3,13 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.png';
 import './Login.css';
 
+import { loginAPI } from '../../services/authService';
+
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [carregando, setCarregando] = useState(false);
 
-  const handleLogin = (e) => {
+
+// 2. E a sua função handleLogin fica assim:
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !senha) {
@@ -17,23 +22,24 @@ function Login() {
       return;
     }
 
-    let usuarioMocado = {
-      nome: "Maria Clara",
-      email: email,
-      is_admin: 0
-    };
+    try {
+      setCarregando(true);
 
-    if (email.toLowerCase() === 'admin@vaxpoint.com') {
-      usuarioMocado.nome = "Administrador";
-      usuarioMocado.is_admin = 1;
+      // Chama o serviço isolado
+      const dados = await loginAPI(email, senha);
+
+      // Salva no localStorage
+      localStorage.setItem('vaxpoint_user', JSON.stringify(dados.usuario));
+
+      // Splash screen e navegação
+      setTimeout(() => {
+        navigate('/');
+      }, 2500);
+
+    } catch (error) {
+      setCarregando(false);
+      alert(error.message || 'Erro ao tentar se conectar ao servidor.');
     }
-
-    setCarregando(true);
-    localStorage.setItem('vaxpoint_user', JSON.stringify(usuarioMocado));
-
-    setTimeout(() => {
-      navigate('/');
-    }, 2500);
   };
 
   // --- TELA DE CARREGAMENTO (SPLASH SCREEN APÓS O CLIQUE) ---

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft, Calendar, Users } from 'lucide-react';
+import { cadastrarUsuarioAPI } from '../../services/authService';
 import logoImg from '../../assets/logo.png';
 import './Cadastro.css';
 
@@ -9,13 +10,15 @@ function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [dataNascimento, setDataNascimento] = useState(''); // Estado para YYYY-MM-DD
+  const [sexo, setSexo] = useState(''); // Estado para Homem ou Mulher
+  
   const navigate = useNavigate();
 
-  const handleCadastro = (e) => {
+  const handleCadastro = async (e) => {
     e.preventDefault();
 
-    // Validações básicas de formulário
-    if (!nome || !email || !senha || !confirmarSenha) {
+    if (!nome || !email || !senha || !confirmarSenha || !dataNascimento || !sexo) {
       alert('Por favor, preencha todos os campos!');
       return;
     }
@@ -25,21 +28,39 @@ function Cadastro() {
       return;
     }
 
-    // Simulando o registro de uma conta com dados básicos (RF-01)
-    const novoUsuario = {
-      idUsuario: Math.floor(Math.random() * 1000) + 3, // ID aleatório
-      nome: nome,
-      email: email,
-      tipoUsuario: "COMUM",
-      is_admin: 0
-    };
+    try {
+      const dadosNovos = {
+        nome,
+        email,
+        senha,
+        data_nascimento: dataNascimento,
+        sexo
+      };
 
-    // Salva o perfil recém-criado como o usuário logado atual
-    localStorage.setItem('vaxpoint_user', JSON.stringify(novoUsuario));
-    alert(`Conta criada com sucesso! Bem-vindo, ${nome}!`);
-    
-    // Redireciona imediatamente para o Painel Principal (Home)
-    navigate('/');
+      const resposta = await cadastrarUsuarioAPI(dadosNovos);
+
+      // 1. Evita salvar um objeto vazio/undefined que quebra a Home
+      const usuarioLogado = resposta.user || resposta.usuario || { 
+        nome, 
+        email, 
+        data_nascimento: dataNascimento, 
+        sexo, 
+        is_admin: 0 
+      };
+
+      localStorage.setItem('vaxpoint_user', JSON.stringify(usuarioLogado));
+      alert(`Conta criada com sucesso! Bem-vindo, ${nome}!`);
+      
+      // 2. Redireciona de forma segura
+      navigate('/'); 
+      
+      // NOTA: Se você preferir que ele faça login manualmente após cadastrar, 
+      // comente a linha do localStorage e do navigate('/') acima e use:
+      // navigate('/login');
+
+    } catch (error) {
+      alert(error.message || 'Falha ao realizar o cadastro no sistema.');
+    }
   };
 
   return (
@@ -80,6 +101,32 @@ function Cadastro() {
               onChange={(e) => setEmail(e.target.value)}
               className="cadastro-input"
             />
+          </div>
+
+          {/* Campo Data de Nascimento Completa (Dia/Mês/Ano nativo) */}
+          <div className="cadastro-input-group">
+            <Calendar size={20} color="#64748B" className="cadastro-icon" />
+            <input 
+              type="date" 
+              value={dataNascimento}
+              onChange={(e) => setDataNascimento(e.target.value)}
+              className="cadastro-input"
+            />
+          </div>
+
+          {/* Campo Seleção de Gênero */}
+          <div className="cadastro-input-group">
+            <Users size={20} color="#64748B" className="cadastro-icon" />
+            <select 
+              value={sexo} 
+              onChange={(e) => setSexo(e.target.value)}
+              className="cadastro-input"
+              style={{ cursor: 'pointer' }}
+            >
+              <option value="" disabled hidden>Selecione seu Gênero</option>
+              <option value="Homem">Homem</option>
+              <option value="Mulher">Mulher</option>
+            </select>
           </div>
 
           <div className="cadastro-input-group">

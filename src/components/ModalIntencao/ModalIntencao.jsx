@@ -24,9 +24,10 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
     e.preventDefault();
     if (!targetVacina || !postoEscolhido) return;
     
+    // No cabeçalho do handleSalvarIntencao:
     const nomeDestinatario = targetVacina === 'humano' 
       ? usuario.nome 
-      : meusPets.find(p => p.id_pet === parseInt(targetVacina))?.nome;
+      : meusPets.find(p => (p.id_pet || p.id) === parseInt(targetVacina))?.nome;
 
     onSucesso(nomeDestinatario, targetVacina, postoEscolhido);
   };
