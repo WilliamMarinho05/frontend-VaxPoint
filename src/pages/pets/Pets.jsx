@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Para proteger a rota
 import { PlusCircle, PawPrint } from 'lucide-react';
 import PetCard from './components/PetCard/PetCard';
 import PetFormModal from './components/PetFormModal/PetFormModal';
 import PetCarteiraModal from './components/PetCarteiraModal/PetCarteiraModal';
 import './Pets.css';
 
-// Importa os novos serviços do Axios
 import { 
   buscarPetsAPI, 
   buscarRacasAPI, 
@@ -13,9 +13,12 @@ import {
   criarPetAPI, 
   atualizarPetAPI, 
   deletarPetAPI 
-} from '../../services/petService'; // Ajuste o caminho do import conforme sua pasta
+} from '../../services/petService';
 
 function Pets() {
+  const navigate = useNavigate();
+  const [usuario, setUsuario] = useState(null);
+  
   const [pets, setPets] = useState([]);
   const [racasDisponiveis, setRacasDisponiveis] = useState([]);
   const [historicoVacinas, setHistoricoVacinas] = useState({});
@@ -24,22 +27,47 @@ function Pets() {
   const [petSelecionadoHistorico, setPetSelecionadoHistorico] = useState(null);
   const [editandoPet, setEditandoPet] = useState(null);
 
-  // Carrega a lista de Pets e as Raças Disponíveis ao montar a tela
+  //  1. PROTEÇÃO DE ROTA RESILIENTE E RECUPERAÇÃO DO USUÁRIO
   useEffect(() => {
-    buscarPets();
-    buscarRacas();
-  }, []);
+    // Busca exatamente a chave que o seu Login salvou
+    const dadosArmazenados = localStorage.getItem('vaxpoint_user');
+    
+    if (!dadosArmazenados) {
+      alert("Acesso negado! Por favor, faça login para gerenciar seus pets.");
+      navigate('/login');
+      return;
+    }
 
-  // Busca as vacinas sob demanda quando o usuário clica para abrir a carteira
+    try {
+      const usuarioObj = JSON.parse(dadosArmazenados);
+      setUsuario(usuarioObj);
+
+      // Verifica qual propriedade de ID o seu backend entrega dentro do objeto usuário
+      const idCorreto = usuarioObj.id || usuarioObj.id_usuario;
+
+      if (idCorreto) {
+        buscarPets(idCorreto); 
+        buscarRacas();
+      } else {
+        console.error("Usuário encontrado, mas nenhum ID válido foi detectado no objeto:", usuarioObj);
+      }
+    } catch (err) {
+      console.error("Erro ao processar dados de login do localStorage:", err);
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  // Busca as vacinas sob demanda ao abrir a carteira
   useEffect(() => {
     if (petSelecionadoHistorico) {
       buscarVacinasDoPet(petSelecionadoHistorico.id_pet);
     }
   }, [petSelecionadoHistorico]);
 
-  const buscarPets = async () => {
+  // Passamos o idUsuario para buscar somente os animais pertencentes a ele
+  const buscarPets = async (idUsuario) => {
     try {
-      const dados = await buscarPetsAPI();
+      const dados = await buscarPetsAPI(idUsuario);
       setPets(dados);
     } catch (error) {
       console.error("Erro ao buscar pets:", error);
@@ -94,14 +122,17 @@ function Pets() {
 
   const handleSalvarPet = async (formData) => {
     try {
+      // SOLUÇÃO DO BUG DO ADMIN: Injeta dinamicamente o ID do usuário conectado
+      const idUsuarioLogado = usuario.id_usuario || usuario.id;
+
       const payload = {
+        id_usuario: idUsuarioLogado, // Garante o vínculo correto com o dono no banco
         nome: formData.nome,
         especie: formData.especie,
         id_raca: parseInt(formData.idRaca),
         porte: formData.porte,
         peso: parseFloat(formData.peso),
         sexo: formData.sexo,
-        data_nascimento: formData.dataNasc ? `${formData.dataNasc}-01` : null,
         data_nascimento: formData.dataNasc,
         numero_microchip: formData.microchip || null,
         foto_url: formData.foto || null
@@ -113,7 +144,7 @@ function Pets() {
         await criarPetAPI(payload);
       }
 
-      buscarPets(); // Atualiza a grade de cards com os dados novos do banco
+      buscarPets(idUsuarioLogado); // Recarrega os pets vinculados ao usuário logado
       setModalFormAberto(false);
     } catch (error) {
       console.error("Erro ao salvar pet:", error);
@@ -133,6 +164,9 @@ function Pets() {
       }
     }
   };
+
+  // Enquanto verifica o login no useEffect, evita renderizar lixo visual na tela
+  if (!usuario) return null;
 
   return (
     <div className="pets-container">
@@ -157,7 +191,7 @@ function Pets() {
             calcularIdade={calcularIdade}
           />
         ))}
-        {pets.length === 0 && <p className="pets-empty-text">Nenhum pet cadastrado.</p>}
+        {pets.length === 0 && <p className="pets-empty-text">Nenhum pet cadastrado para sua conta.</p>}
       </div>
 
       <PetFormModal 

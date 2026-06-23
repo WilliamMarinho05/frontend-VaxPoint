@@ -60,9 +60,14 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
               
               {/* Lista apenas pets que batem com a espécie correta do pet requisitado */}
               {(intencaoVacina.publico === 'Cachorro' || intencaoVacina.publico === 'Gato') && 
-                petsValidosParaCampanha.map(p => (
-                  <option key={p.id_pet} value={p.id_pet}>🐾 {p.nome} ({p.especie})</option>
-                ))
+                petsValidosParaCampanha.map(p => {
+                  const idDoPet = p.id_pet || p.id; // Garante que vai pegar o ID correto
+                  return (
+                    <option key={idDoPet} value={idDoPet}>
+                      🐾 {p.nome} ({p.especie})
+                    </option>
+                  );
+                })
               }
             </select>
 

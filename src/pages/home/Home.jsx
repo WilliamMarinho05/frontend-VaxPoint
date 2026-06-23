@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { CheckCircle } from 'lucide-react';
 
+import { buscarPetsAPI } from '../../services/petService';
 import { buscarPostos, buscarCampanhas, registrarIntencaoAPI } from '../../services/infoService';
-import api from '../../services/api'; 
 
 import ModalPosto from './components/ModalPosto/ModalPosto'; 
 import FilterBar from './components/FilterBar/FilterBar';
@@ -40,17 +40,20 @@ function Home() {
   const [intencaoVacina, setIntencaoVacina] = useState(null);
   const [mensagemSucesso, setMensagemSucesso] = useState('');
 
-  // 2. Validação rígida de login e carregamento dos pets (UNIFICADO)
+// PROTEÇÃO DE ROTA E CARREGAMENTO DE DADOS (Tudo em 1)
   useEffect(() => {
+    // 1. Verificação de segurança (usando o estado que já foi lido no topo)
     if (!usuario) {
+      alert("Acesso negado! Por favor, faça login para acessar o painel principal.");
       navigate('/login');
       return;
     }
 
+    // 3. Carrega os pets cruzando com o ID do dono
     const idDono = usuario.id_usuario || usuario.id;
     if (idDono) {
-      api.get(`/pets/${idDono}`)
-        .then(res => setMeusPets(res.data || []))
+      buscarPetsAPI(idDono)
+        .then(dados => setMeusPets(dados || []))
         .catch(err => console.error("Erro ao buscar pets reais do usuário:", err));
     }
   }, [usuario, navigate]);

@@ -5,7 +5,7 @@ import './PetFormModal.css';
 function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponiveis, dadosIniciais }) {
   const [nome, setNome] = useState('');
   const [especie, setEspecie] = useState('Cachorro');
-  const [idRaca, setIdRaca] = useState('1');
+  const [idRaca, setIdRaca] = useState('');
   const [porte, setPorte] = useState('Médio');
   const [peso, setPeso] = useState('');
   const [sexo, setSexo] = useState('Macho');
@@ -13,14 +13,18 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
   const [microchip, setMicrochip] = useState('');
   const [foto, setFoto] = useState('');
 
-  // Carrega dados se for edição OU limpa o formulário se for um novo Pet
+  // 1. FILTRAGEM SEGURA: Filtra as raças garantindo caixa alta/baixa idênticas
+  const raçasFiltradas = racasDisponiveis.filter(
+    r => r.especie.toLowerCase() === especie.toLowerCase()
+  );
+
+  // 2. Carrega dados se for edição OU limpa o formulário se for um novo Pet
   useEffect(() => {
     if (isOpen) {
       if (dadosIniciais) {
-        // Se houver dados iniciais, preenche para EDICAO
         setNome(dadosIniciais.nome || '');
         setEspecie(dadosIniciais.especie || 'Cachorro');
-        setIdRaca(dadosIniciais.id_raca?.toString() || '1');
+        setIdRaca(dadosIniciais.id_raca?.toString() || '');
         setPorte(dadosIniciais.porte || 'Médio');
         setPeso(dadosIniciais.peso || '');
         setSexo(dadosIniciais.sexo || 'Macho');
@@ -28,10 +32,9 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
         setMicrochip(dadosIniciais.numero_microchip || '');
         setFoto(dadosIniciais.foto_url || '');
       } else {
-        // Se NÃO houver dados iniciais, RESETA tudo para os padrões de NOVO PET
         setNome('');
         setEspecie('Cachorro');
-        setIdRaca('1');
+        setIdRaca('');
         setPorte('Médio');
         setPeso('');
         setSexo('Macho');
@@ -42,21 +45,25 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
     }
   }, [dadosIniciais, isOpen]);
 
-  // Altera a raça automaticamente APENAS quando o usuário muda a espécie manualmente
-  // Evita sobrescrever a raça correta durante a abertura da edição
+  // 3. SINCRONIZAÇÃO AUTOMÁTICA DA RAÇA:
+  // Sempre que a espécie mudar OU as raças carregarem da API, define a primeira válida se o idRaca estiver vazio
   useEffect(() => {
-    if (isOpen && !dadosIniciais) { 
-      const primeiraRaca = racasDisponiveis.find(r => r.especie === especie);
-      if (primeiraRaca) setIdRaca(primeiraRaca.id_raca.toString());
+    if (isOpen && raçasFiltradas.length > 0) {
+      // Se for um pet novo ou se a raça atual não pertencer à nova espécie selecionada
+      const racaPertenceAEspecie = raçasFiltradas.some(r => r.id_raca.toString() === idRaca);
+      
+      if (!idRaca || !racaPertenceAEspecie) {
+        setIdRaca(raçasFiltradas[0].id_raca.toString());
+      }
     }
-  }, [especie, racasDisponiveis, isOpen]);
+  }, [especie, racasDisponiveis, isOpen, idRaca]);
 
-  // Handler separado para quando o usuário trocar a espécie manualmente no <select>
   const handleEspecieChange = (novaEspecie) => {
     setEspecie(novaEspecie);
-    // Ao mudar manualmente a espécie, busca a primeira raça correspondente
-    const primeiraRaca = racasDisponiveis.find(r => r.especie === novaEspecie);
-    if (primeiraRaca) setIdRaca(primeiraRaca.id_raca.toString());
+    const primeirasRaças = racasDisponiveis.filter(r => r.especie.toLowerCase() === novaEspecie.toLowerCase());
+    if (primeirasRaças.length > 0) {
+      setIdRaca(primeirasRaças[0].id_raca.toString());
+    }
   };
 
   const handleFotoUpload = (e) => {
@@ -71,23 +78,22 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Se por qualquer oscilação de estado o "sexo" estiver vazio, 
-    // nós garantimos o valor que está selecionado visualmente ('Macho')
     const sexoGarantido = sexo || 'Macho'; 
-    const idRacaGarantido = idRaca || '1';
+    // Se ainda assim não houver ID selecionado, tenta pegar a primeira disponível do filtro
+    const idRacaGarantido = idRaca || (raçasFiltradas[0]?.id_raca?.toString()) || '1';
 
     onSalvar({ 
-        nome, 
-        especie, 
-        idRaca: idRacaGarantido, 
-        porte, 
-        peso, 
-        sexo: sexoGarantido, 
-        dataNasc, 
-        microchip, 
-        foto 
+      nome, 
+      especie, 
+      idRaca: idRacaGarantido, 
+      porte, 
+      peso, 
+      sexo: sexoGarantido, 
+      dataNasc, 
+      microchip, 
+      foto 
     });
-    };
+  };
 
   if (!isOpen) return null;
 
@@ -124,10 +130,14 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
 
             <div className="pets-input-group">
               <label className="pets-label">Raça</label>
-              <select value={idRaca} onChange={(e) => setIdRaca(e.target.value)} className="pets-input">
-                {racasDisponiveis.filter(r => r.especie === especie).map(r => (
-                  <option key={r.id_raca} value={r.id_raca}>{r.nome_raca}</option>
-                ))}
+              <select value={idRaca} onChange={(e) => setIdRaca(e.target.value)} className="pets-input" required>
+                {raçasFiltradas.length === 0 ? (
+                  <option value="">Carregando raças...</option>
+                ) : (
+                  raçasFiltradas.map(r => (
+                    <option key={r.id_raca} value={r.id_raca}>{r.nome_raca}</option>
+                  ))
+                )}
               </select>
             </div>
 
@@ -164,7 +174,7 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
             </div>
           </div>
 
-          <button type="submit" className="pets-btn-submit-modal">
+          <button type="submit" className="pets-btn-submit-modal" disabled={raçasFiltradas.length === 0}>
             {editandoPetId ? 'Salvar Alterações' : 'Cadastrar Pet'}
           </button>
         </form>

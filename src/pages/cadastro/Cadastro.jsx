@@ -39,8 +39,9 @@ function Cadastro() {
 
       const resposta = await cadastrarUsuarioAPI(dadosNovos);
 
-      // 1. Evita salvar um objeto vazio/undefined que quebra a Home
-      const usuarioLogado = resposta.user || resposta.usuario || { 
+      // CORREÇÃO: Pegamos exatamente o id_usuario que vem do back-end
+      const usuarioLogado = { 
+        id_usuario: resposta.id_usuario, // <-- Agora o ID está salvo!
         nome, 
         email, 
         data_nascimento: dataNascimento, 
@@ -51,12 +52,7 @@ function Cadastro() {
       localStorage.setItem('vaxpoint_user', JSON.stringify(usuarioLogado));
       alert(`Conta criada com sucesso! Bem-vindo, ${nome}!`);
       
-      // 2. Redireciona de forma segura
       navigate('/'); 
-      
-      // NOTA: Se você preferir que ele faça login manualmente após cadastrar, 
-      // comente a linha do localStorage e do navigate('/') acima e use:
-      // navigate('/login');
 
     } catch (error) {
       alert(error.message || 'Falha ao realizar o cadastro no sistema.');

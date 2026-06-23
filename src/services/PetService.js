@@ -1,24 +1,27 @@
 import api from "./api";
 
-// Busca todos os pets do usuário logado
-export const buscarPetsAPI = async () => {
-  const response = await api.get("/pets");
+// AJUSTADO: Agora recebe o idUsuario para trazer apenas os pets dele
+export const buscarPetsAPI = async (idUsuario) => {
+  const response = await api.get(`/pets/usuario/${idUsuario}`); // Vai bater certinho na nova rota!
   return response.data;
 };
 
 // Busca todas as raças cadastradas no sistema (para carregar o select do formulário)
+// Substitua apenas a função buscarRacasAPI dentro do seu petService.js:
+
 export const buscarRacasAPI = async () => {
-  // Ajuste aqui para incluir o prefixo correto do seu arquivo de rotas:
-  const response = await api.get("/pets/racas"); 
+  // Força o caminho completo para garantir que bata no app.use('/api/pets', petRoutes)
+  const response = await api.get("/api/pets/racas"); 
   return response.data;
 };
+
 // Busca o histórico de vacinas de um pet específico
 export const buscarVacinasDoPetAPI = async (idPet) => {
   const response = await api.get(`/vacinas/${idPet}`);
   return response.data;
 };
 
-// Cria um novo pet no banco de dados
+// Cria um novo pet no banco de dados (O payload 'dadosPet' já vai com id_usuario de quem está logado!)
 export const criarPetAPI = async (dadosPet) => {
   const response = await api.post("/pets", dadosPet);
   return response.data;
