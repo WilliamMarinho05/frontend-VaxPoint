@@ -23,13 +23,12 @@ function PetCarteiraModal({ pet, historicoVacinas, onClose }) {
           {vacinasDoPet.length > 0 ? (
             <div className="pets-timeline">
               {vacinasDoPet.map((item) => (
-                <div key={item.id} className="pets-timeline-item">
+                <div key={item.id_historico} className="pets-timeline-item">
                   <div className="pets-timeline-marker"></div>
                   <div className="pets-timeline-content">
-                    <h4 className="pets-timeline-vaccine">{item.vacina}</h4>
+                    <h4 className="pets-timeline-vaccine">{item.nome_vacina}</h4>
                     <p className="pets-timeline-meta">
-                      <span><Calendar size={13} /> {item.data}</span>
-                      <span>📍 {item.posto}</span>
+                      <span><Calendar size={13} />{item.data_aplicacao}</span>
                     </p>
                     <span className="pets-badge-status-applied">{item.status}</span>
                   </div>

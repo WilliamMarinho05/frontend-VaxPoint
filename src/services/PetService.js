@@ -11,13 +11,13 @@ export const buscarPetsAPI = async (idUsuario) => {
 
 export const buscarRacasAPI = async () => {
   // Força o caminho completo para garantir que bata no app.use('/api/pets', petRoutes)
-  const response = await api.get("/api/pets/racas"); 
+  const response = await api.get("/pets/racas"); 
   return response.data;
 };
 
 // Busca o histórico de vacinas de um pet específico
 export const buscarVacinasDoPetAPI = async (idPet) => {
-  const response = await api.get(`/vacinas/${idPet}`);
+  const response = await api.get(`/pets/historico/${idPet}`);
   return response.data;
 };
 
