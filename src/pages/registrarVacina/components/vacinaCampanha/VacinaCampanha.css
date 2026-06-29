@@ -9,11 +9,11 @@
 }
 
 .tabela-atendimento th {
-  background-color: var(--bg-light);
-  color: var(--text-muted);
+  background-color: var(--bg-light); /* Fundo oficial de tabelas e listas */
+  color: var(--text-muted);          /* Cinza de apoio para cabeçalhos */
   font-weight: 700;
   padding: 14px 16px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   border-bottom: 2px solid var(--border-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -22,26 +22,66 @@
 .tabela-atendimento td {
   padding: 16px;
   border-bottom: 1px solid var(--border-light);
-  color: var(--dark-blue);
-  font-size: 1rem;
+  color: var(--dark-blue);           /* Cor escura pesada oficial para dados */
+  font-size: 0.95rem;
 }
 
 .tabela-atendimento tbody tr:hover {
-  background-color: rgba(244, 247, 252, 0.5);
+  background-color: var(--badge-blue-bg); /* Hover sutil usando o azul claro de componentes */
+  transition: background-color 0.15s ease-in-out;
 }
 
-.btn-baixa {
-  background-color: var(--primary-blue);
-  color: var(--bg-card);
-  border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
+/* ==========================================================================
+   MENSAGEM DE ERRO (Cidadão Não Encontrado)
+   ========================================================================== */
+.msg-erro-usuario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--alert-bg);     /* Fundo do alerta de erro admin */
+  color: var(--admin-danger);            /* Texto vermelho de perigo/alerta */
+  border: 1px solid var(--alert-border); /* Borda do alerta de erro admin */
+  border-radius: 8px;
+  padding: 12px 16px;
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
+  margin-top: 8px;
 }
 
-.btn-baixa:hover {
-  opacity: 0.9;
+/* Navegação por abas internas dentro do Card */
+.abas-navegacao {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--border-light);
+  margin-bottom: 20px;
+}
+
+.aba-item {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px; /* Encaixa perfeitamente em cima da linha da div pai */
+  transition: all 0.2s ease-in-out;
+}
+
+.aba-item:hover {
+  color: var(--brand-blue);
+  background-color: var(--bg-light);
+  border-radius: 6px 6px 0 0;
+}
+
+.aba-item.ativa {
+  color: var(--primary-blue);
+  border-bottom-color: var(--primary-blue);
+  font-weight: 700;
+}
+
+.painel-conteudo-aba {
+  background-color: var(--bg-card);
+  animation: fadeIn 0.2s ease-in-out;
 }

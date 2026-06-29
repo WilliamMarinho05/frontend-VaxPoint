@@ -1,0 +1,52 @@
+/* components/RegistroManualCampanha.css */
+.registro-manual-container {
+  width: 100%;
+}
+
+.descricao-manual {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.alerta-validacao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--badge-blue-bg); /* Fundo azul de suporte */
+  border-left: 4px solid var(--primary-blue); /* Borda em azul ativo */
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--brand-blue); /* Texto institucional */
+  margin: 12px 0;
+}
+
+.badge-publico {
+  background-color: var(--badge-blue-border);
+  color: var(--dark-blue);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.botoes-acoes {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-voltar {
+  background-color: var(--btn-gray-bg); /* Botão secundário cinza padrão */
+  color: var(--btn-gray-text);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.btn-voltar:hover {
+  opacity: 0.85;
+}

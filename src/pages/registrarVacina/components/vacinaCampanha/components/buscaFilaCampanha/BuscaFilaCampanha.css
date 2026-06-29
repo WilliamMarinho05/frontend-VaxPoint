@@ -1,0 +1,281 @@
+/* ==========================================================================
+   ESTILIZAÇÃO DA TABELA DE FILA DE CAMPANHAS (VaxPoint Admin)
+   ========================================================================== */
+
+.busca-fila-container {
+  width: 100%;
+}
+
+/* Cabeçalho da Seção */
+.cabecalho-secao-atendimento {
+  margin-bottom: 20px;
+}
+
+.cabecalho-secao-atendimento h4 {
+  font-family: var(--font-main);
+  color: var(--dark-blue);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.subtitulo-secao {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Container da Tabela com Sombra Suave */
+.tabela-vax-container {
+  background-color: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden; /* Garante que o hover não escape das bordas arredondadas */
+  border: 1px solid var(--border-light);
+}
+
+.vax-shadow-suave {
+  box-shadow: 0 4px 12px rgba(10, 37, 64, 0.05);
+}
+
+/* Estrutura Base da Tabela */
+.tabela-vax-atendimento {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Cabeçalho da Tabela */
+.tabela-vax-atendimento thead tr {
+  border-bottom: 2px solid var(--border-light);
+}
+
+.tabela-vax-atendimento th {
+  background-color: var(--bg-light);
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 16px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Corpo da Tabela */
+.tabela-vax-atendimento td {
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--dark-blue);
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+/* Hover na Linha */
+.vax-row-interativa:hover {
+  background-color: rgba(244, 247, 252, 0.7);
+  transition: background-color 0.15s ease-in-out;
+}
+
+/* Definição de Colunas Específicas */
+.col-tipo {
+  width: 130px;
+}
+
+.col-acao {
+  width: 180px;
+  text-align: center;
+}
+
+.col-nome-paciente {
+  font-weight: 500;
+}
+
+/* Informações da Vacina dentro da célula */
+.celula-campanha-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.vax-text-dark-blue { color: var(--dark-blue); }
+.vax-text-slate { color: var(--text-slate); }
+
+.sub-vacina {
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   TAGS DE PÚBLICO (Tags visuais profissionais com ícone)
+   ========================================================================== */
+.vax-tag-publico {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-main);
+  border: 1px solid transparent;
+}
+
+/* Tag Humano (Padrão Azul VaxPoint) */
+.vax-tag-humano {
+  background-color: var(--badge-blue-bg);
+  color: var(--brand-blue);
+  border-color: var(--badge-blue-border);
+}
+
+/* Tag Pets (Padrão Verde Institucional) */
+.vax-tag-pet-cachorro,
+.vax-tag-pet-gato,
+.vax-tag-pet-outros {
+  background-color: var(--badge-green-bg);
+  color: var(--primary-green);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+/* ==========================================================================
+   BOTÃO DE CONFIRMAÇÃO (Design Profissional AzulInstitucional)
+   ========================================================================== */
+.btn-vax-baixa {
+  background-color: var(--primary-blue);
+  color: var(--bg-card);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: var(--font-main);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-vax-baixa:hover {
+  background-color: #0069d9; /* Tom sutilmente mais escuro de azul para hover */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-vax-baixa:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 123, 255, 0.1);
+}
+
+/* ==========================================================================
+   ESTADO VAZIO (Aviso Amigável)
+   ========================================================================== */
+.aviso-vazio {
+  padding: 40px;
+  background-color: var(--bg-light);
+  border: 2px dashed var(--border-light);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--text-slate);
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.icone-aviso {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.aviso-vazio p {
+  font-size: 1.05rem;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Botão Verde do Estado Vazio (Criação Manual) */
+.btn-vax-green {
+  margin-top: 16px;
+  background-color: var(--primary-green);
+  color: var(--bg-card);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  transition: all 0.2s;
+}
+
+.btn-vax-green:hover {
+  background-color: #0d9488; /* Verde levemente mais escuro */
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Animação Fade In */
+.animate-fade-in {
+  animation: fadeInAtendimento 0.3s ease-in-out;
+}
+
+/* Cabeçalho Interativo para o Filtro */
+.header-filtravel {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.header-filtravel:hover {
+  background-color: var(--border-light) !important;
+}
+
+.flex-header-filtro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  white-space: nowrap;
+}
+/* Micro-botão de estado dentro do TH (Aumentado para melhor visualização) */
+.btn-filtro-coluna {
+  background-color: var(--btn-gray-bg);
+  color: var(--btn-gray-text);
+  border: 1px solid var(--border-light);
+  padding: 6px 12px; /* Aumentado para dar mais área de clique */
+  border-radius: 6px; /* Bordas levemente mais arredondadas acompanhando o padrão */
+  font-size: 0.8rem; /* Fonte ligeiramente maior para leitura rápida */
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Adiciona uma setinha sutil indicando que é um elemento interativo */
+.btn-filtro-coluna::after {
+  content: '▼';
+  font-size: 0.6rem;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+/* Cores dinâmicas do botão de filtro com base nas variáveis */
+.btn-filtro-coluna.humanos {
+  background-color: var(--badge-blue-bg);
+  color: var(--brand-blue);
+  border-color: var(--badge-blue-border);
+}
+
+.btn-filtro-coluna.animais {
+  background-color: var(--badge-green-bg);
+  color: var(--primary-green);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* Ajuste na largura da coluna para o botão maior não quebrar linha */
+.col-tipo {
+  width: 190px;
+}
+
+@keyframes fadeInAtendimento {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
