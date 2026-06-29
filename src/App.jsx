@@ -11,8 +11,9 @@ import Home from './pages/home/Home';
 import Pets from './pages/pets/Pets';
 import Historico from './pages/historico/Historico';
 import Admin from './pages/admin/Admin';
+import RegistrarVacina from './pages/registrarVacina/RegistrarVacina';
 
-// 🛡️ Componente de Rota Privada Comum
+// Componente de Rota Privada Comum
 // Bloqueia o acesso se o utilizador não tiver um login mocado no localStorage
 const PrivateRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('vaxpoint_user'));
@@ -26,7 +27,7 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-// 🛡️ Componente de Rota Privada do Administrador
+// Componente de Rota Privada do Administrador
 // Bloqueia o acesso se o utilizador não for admin (is_admin !== 1)
 const AdminRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem('vaxpoint_user'));
@@ -75,8 +76,15 @@ function App() {
           </AdminRoute>
         } />
 
+        <Route path="/registrar-vacina" element={
+          <AdminRoute>
+            <RegistrarVacina />
+          </AdminRoute>
+        } />
+        
+
         {/* Rota de Escape: Qualquer URL errada manda para a Home */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, PawPrint, Clock, ShieldAlert, LogOut, User } from 'lucide-react';
+import { Home, PawPrint, Clock, ShieldAlert, LogOut, User, Syringe } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import './Navbar.css';
 
@@ -29,18 +29,27 @@ function Navbar() {
         <Link to="/" className="navbar-link" translate="no">
           <Home size={18} /> Início
         </Link>
-        <Link to="/pets" className="navbar-link" translate="no">
-          <PawPrint size={18} /> Meus Pets
-        </Link>
-        <Link to="/historico" className="navbar-link" translate="no">
-          <Clock size={18} /> Histórico
-        </Link>
-        
-        {/* Exibe o link de Admin apenas se o usuário tiver permissão */}
-        {user.is_admin === 1 && (
-          <Link to="/admin" className="navbar-link-admin" translate="no">
-            <ShieldAlert size={18} /> Admin
-          </Link>
+
+        {user.is_admin === 1 ? (
+          <>
+            {/* LINKS EXCLUSIVOS DO ADM / POSTINHO */}
+            <Link to="/registrar-vacina" className="navbar-link" translate="no">
+              <Syringe size={18} /> Registrar Vacina
+            </Link>
+            <Link to="/admin" className="navbar-link-admin" translate="no">
+              <ShieldAlert size={18} /> Painel Admin
+            </Link>
+          </>
+        ) : (
+          <>
+            {/* LINKS EXCLUSIVOS DO CIDADÃO COMUM */}
+            <Link to="/pets" className="navbar-link" translate="no">
+              <PawPrint size={18} /> Meus Pets
+            </Link>
+            <Link to="/historico" className="navbar-link" translate="no">
+              <Clock size={18} /> Histórico
+            </Link>
+          </>
         )}
       </div>
 

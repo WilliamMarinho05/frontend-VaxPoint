@@ -1,0 +1,22 @@
+.card-atendimento {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-atendimento h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  margin: 0 0 8px 0;
+}
+
+.card-atendimento p {
+  font-size: 1rem;
+  color: var(--text-slate);
+  margin: 0 0 28px 0;
+}

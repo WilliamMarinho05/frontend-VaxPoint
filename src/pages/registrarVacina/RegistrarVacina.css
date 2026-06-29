@@ -1,0 +1,82 @@
+/* ==========================================================================
+   CONTAINER PRINCIPAL E ALINHAMENTO
+   ========================================================================== */
+.atendimento-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 14px;
+  box-sizing: border-box;
+  font-family: var(--font-main);
+}
+
+.atendimento-header,
+.atendimento-content {
+  width: 100%;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* ==========================================================================
+   CABEÇALHO DA PÁGINA E ABAS (TABS)
+   ========================================================================== */
+.atendimento-header {
+  margin-top: 40px;
+  margin-bottom: 4px;
+}
+
+.atendimento-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 24px 0;
+  color: var(--dark-blue);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.atendimento-header h2 svg {
+  color: var(--primary-blue);
+}
+
+.atendimento-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 1px;
+}
+
+.atendimento-tabs button {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.atendimento-tabs button:hover {
+  color: var(--brand-blue);
+}
+
+.atendimento-tabs button.active {
+  color: var(--primary-blue);
+  border-bottom-color: var(--primary-blue);
+}
+
+.atendimento-content {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+/* ==========================================================================
+   ANIMAÇÃO COMPARTILHADA
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
