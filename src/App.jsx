@@ -84,7 +84,7 @@ function App() {
         
 
         {/* Rota de Escape: Qualquer URL errada manda para a Home */}
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

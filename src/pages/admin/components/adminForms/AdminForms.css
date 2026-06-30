@@ -1,0 +1,110 @@
+/* ==========================================================================
+   ESTILOS DE LAYOUT E FORMULÁRIOS
+   ========================================================================== */
+
+/* Grid que segura os dois cards de formulário */
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: start; /* IMPEDE que o card menor estique para acompanhar o maior */
+}
+
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Elementos internos dos formulários */
+.admin-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.admin-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-slate);
+}
+
+.admin-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  outline: none;
+  font-size: 14px;
+  color: var(--dark-blue);
+  background-color: var(--bg-card);
+  box-sizing: border-box;
+}
+
+.admin-input:focus {
+  border-color: var(--primary-blue);
+}
+
+/* Container de rolagem interna para seleção de múltiplos postos */
+.admin-checkbox-list {
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 10px;
+  background-color: var(--bg-card);
+}
+
+.admin-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  color: var(--text-slate);
+}
+
+.admin-checkbox-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Grupo exclusivo para o checkbox inline de Destaque */
+.admin-group-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.admin-group-inline input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+/* Botões */
+.admin-btn {
+  width: 100%;
+  padding: 12px;
+  color: var(--bg-card);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity 0.2s;
+}
+
+.admin-btn:hover {
+  opacity: 0.9;
+}
+
+.admin-btn-danger {
+  background-color: var(--admin-danger);
+}
+
+.admin-btn-primary {
+  background-color: var(--primary-blue);
+}
