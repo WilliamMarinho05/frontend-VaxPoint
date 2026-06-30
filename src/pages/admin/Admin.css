@@ -102,8 +102,6 @@
 
 /* Seção que envelopa os dois componentes de gráficos */
 .admin-chart-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 20px;
   margin-bottom: 30px;
 }
@@ -112,6 +110,8 @@
 .animate-fade {
   animation: adminFade 0.3s ease-out;
 }
+
+
 
 @keyframes adminFade {
   from { opacity: 0; transform: translateY(10px); }

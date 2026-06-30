@@ -6,7 +6,7 @@ import './AdminChartVacinas.css';
 export default function AdminChartVacinas({ dadosVacinas = [] }) {
   return (
     <AdminCard
-      title="Quantidades Aplicadas por Vacina"
+      title="Quantidades Aplicadas por Vacina (Pets)"
       icon={BarChart3}
       iconColor="#007BFF"
       subtitle="Visualização proporcional de doses aplicadas."
@@ -20,33 +20,41 @@ export default function AdminChartVacinas({ dadosVacinas = [] }) {
         ) : (
 
           dadosVacinas.map((item, index) => {
-            const quantidade = Number(item.quantidade) || 0;
-            const porcentagem = Number(item.porcentagem) || 0;
+            const estoque = Number(item.estoque) || 0;
+            const aplicadas = Number(item.aplicadas) || 0;
+
+            const percentualUso = estoque > 0
+              ? (aplicadas / estoque) * 100
+              : 0;
 
             return (
               <div key={index} className="chart-bar-row">
 
                 <div className="chart-bar-info">
                   <span className="chart-vacine-name">{item.nome}</span>
+
                   <span className="chart-vacine-qty">
-                    <strong>{quantidade}</strong> doses
+                    <strong>{aplicadas}</strong> / {estoque} doses
                   </span>
                 </div>
 
+                {/* BARRA BASE (ESTOQUE TOTAL) */}
                 <div className="chart-bar-bg">
+
+                  {/* PARTE USADA */}
                   <div
                     className="chart-bar-fill"
                     style={{
-                      width: `${porcentagem}%`,
+                      width: `${percentualUso}%`,
                       backgroundColor: item.cor || '#007BFF'
                     }}
                   />
+
                 </div>
 
               </div>
             );
           })
-
         )}
 
       </div>

@@ -13,17 +13,6 @@ export const adminService = {
         return Array.isArray(data) ? data : [];
     },
 
-    getChartConversao: async (regiao = '') => {
-        const { data } = await api.get(`/admin/chart/conversao?regiao=${regiao}`);
-
-        return Array.isArray(data)
-            ? data.map(item => ({
-                nome: item.nome,
-                aplicacoes: Number(item.aplicacoes) || 0
-            }))
-            : [];
-    },
-
     atualizarEstoque: async (dadosEstoque) => {
         const response = await api.post('/admin/estoque', dadosEstoque);
         return response.data;

@@ -3,7 +3,6 @@ import { ShieldAlert, ShieldCheck } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import AdminMetrics from './components/adminMetrics/AdminMetrics';
 import AdminChartVacinas from './components/adminChartVacinas/AdminChartVacinas';
-import AdminChartConversao from './components/adminChartConversao/AdminChartConversao';
 import AdminForms from './components/adminForms/AdminForms';
 import './Admin.css';
 
@@ -11,20 +10,17 @@ function Admin() {
   const [regiao, setRegiao] = useState('');
   const [metricas, setMetricas] = useState(null);
   const [dadosVacinas, setDadosVacinas] = useState([]);
-  const [dadosConversao, setDadosConversao] = useState([]);
   const [postos, setPostos] = useState([]);
 
   // Função para carregar tudo
   const carregarDados = async () => {
     try {
-      const [met, vac, conv] = await Promise.all([
+      const [met, vac] = await Promise.all([
         adminService.getMetrics(regiao),
         adminService.getChartVacinas(regiao),
-        adminService.getChartConversao(regiao)
       ]);
       setMetricas(met);
       setDadosVacinas(vac);
-      setDadosConversao(conv);
     } catch (error) {
       console.error("Erro ao carregar dados do admin", error);
     }
@@ -93,7 +89,6 @@ function Admin() {
       {/* Agora estilizado nativamente pela classe mapeada no Admin.css */}
       <section className="admin-chart-section">
         <AdminChartVacinas dadosVacinas={dadosVacinas} />
-        <AdminChartConversao dadosConversao={dadosConversao} />
       </section>
 
       {/* Passa a função carregarDados para que os formulários possam atualizar a tela ao enviar algo */}
