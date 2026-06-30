@@ -8,28 +8,44 @@ function RegistrarVacina() {
   const [aba, setAba] = useState('rotina'); // 'rotina' ou 'campanha'
 
   return (
-    <div className="atendimento-container">
-      <header className="atendimento-header">
-        <h2><Syringe size={28} /> Atendimento e Registro de Vacinação</h2>
-        <div className="atendimento-tabs">
-          <button 
-            className={aba === 'rotina' ? 'active' : ''} 
-            onClick={() => setAba('rotina')}
-          >
-            Vacinação de Rotina
-          </button>
-          <button 
-            className={aba === 'campanha' ? 'active' : ''} 
-            onClick={() => setAba('campanha')}
-          >
-            Baixa em Campanhas
-          </button>
-        </div>
-      </header>
+    <div className="atendimento-wrapper">
 
-      <main className="atendimento-content">
-        {aba === 'rotina' ? <VacinaRotina /> : <VacinaCampanha />}
-      </main>
+      {/* CARD PRINCIPAL */}
+      <div className="atendimento-container">
+
+        <header className="atendimento-header">
+          
+          <h2>
+            <Syringe size={28} /> Atendimento e Registro de Vacinação
+          </h2>
+
+          {/* BOTÕES AGORA ABAIXO DO TÍTULO */}
+          <div className="toggle-switch-container">
+
+            <button
+              className={`tab-float ${aba === 'rotina' ? 'active' : ''}`}
+              onClick={() => setAba('rotina')}
+            >
+              Rotina
+            </button>
+
+            <button
+              className={`tab-float ${aba === 'campanha' ? 'active' : ''}`}
+              onClick={() => setAba('campanha')}
+            >
+              Campanha
+            </button>
+
+          </div>
+
+        </header>
+
+        <main className="atendimento-content">
+          {aba === 'rotina' ? <VacinaRotina /> : <VacinaCampanha />}
+        </main>
+
+      </div>
+
     </div>
   );
 }

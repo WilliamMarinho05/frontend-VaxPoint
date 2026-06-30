@@ -4,7 +4,7 @@ import './CampanhaCard.css';
 function CampanhaCard({ campanha, onRegistrarIntencao }) {
   return (
     <div className="home-card-campanha-linear">
-      <img src={campanha.imagemUrl} alt={campanha.titulo} className="lista-campanha-thumb" />
+      <img src={campanha.imagem_url} alt={campanha.titulo} className="lista-campanha-thumb" />
 
       <div className="card-texto-alinhado">
         <div className="campanha-row-header">

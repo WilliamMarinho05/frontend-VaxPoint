@@ -17,7 +17,10 @@ import {
 
 function Pets() {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState(null);
+  const [usuario] = useState(() => {
+      const salvo = localStorage.getItem("vaxpoint_user");
+      return salvo ? JSON.parse(salvo) : null;
+  });
   
   const [pets, setPets] = useState([]);
   const [racasDisponiveis, setRacasDisponiveis] = useState([]);
@@ -29,32 +32,16 @@ function Pets() {
 
   //  1. PROTEÇÃO DE ROTA RESILIENTE E RECUPERAÇÃO DO USUÁRIO
   useEffect(() => {
-    // Busca exatamente a chave que o seu Login salvou
-    const dadosArmazenados = localStorage.getItem('vaxpoint_user');
-    
-    if (!dadosArmazenados) {
-      alert("Acesso negado! Por favor, faça login para gerenciar seus pets.");
-      navigate('/login');
+    const token = localStorage.getItem("vaxpoint_token");
+    const dadosArmazenados = localStorage.getItem("vaxpoint_user");
+
+    if (!token || !dadosArmazenados) {
+      navigate("/login");
       return;
     }
 
-    try {
-      const usuarioObj = JSON.parse(dadosArmazenados);
-      setUsuario(usuarioObj);
-
-      // Verifica qual propriedade de ID o seu backend entrega dentro do objeto usuário
-      const idCorreto = usuarioObj.id || usuarioObj.id_usuario;
-
-      if (idCorreto) {
-        buscarPets(idCorreto); 
-        buscarRacas();
-      } else {
-        console.error("Usuário encontrado, mas nenhum ID válido foi detectado no objeto:", usuarioObj);
-      }
-    } catch (err) {
-      console.error("Erro ao processar dados de login do localStorage:", err);
-      navigate('/login');
-    }
+    buscarPets();
+    buscarRacas();
   }, [navigate]);
 
   // Busca as vacinas sob demanda ao abrir a carteira
@@ -65,10 +52,10 @@ function Pets() {
   }, [petSelecionadoHistorico]);
 
   // Passamos o idUsuario para buscar somente os animais pertencentes a ele
-  const buscarPets = async (idUsuario) => {
+  const buscarPets = async () => {
     try {
-      const dados = await buscarPetsAPI(idUsuario);
-      setPets(dados);
+      const dados = await buscarPetsAPI();
+      setPets(dados || []);
     } catch (error) {
       console.error("Erro ao buscar pets:", error);
       alert("Não foi possível carregar a lista de pets.");
@@ -122,11 +109,7 @@ function Pets() {
 
   const handleSalvarPet = async (formData) => {
     try {
-      // SOLUÇÃO DO BUG DO ADMIN: Injeta dinamicamente o ID do usuário conectado
-      const idUsuarioLogado = usuario.id_usuario || usuario.id;
-
       const payload = {
-        id_usuario: idUsuarioLogado, // Garante o vínculo correto com o dono no banco
         nome: formData.nome,
         especie: formData.especie,
         id_raca: parseInt(formData.idRaca),
@@ -144,7 +127,7 @@ function Pets() {
         await criarPetAPI(payload);
       }
 
-      buscarPets(idUsuarioLogado); // Recarrega os pets vinculados ao usuário logado
+      await buscarPets();
       setModalFormAberto(false);
     } catch (error) {
       console.error("Erro ao salvar pet:", error);

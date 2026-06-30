@@ -85,3 +85,33 @@
   background-color: var(--bg-card);
   animation: fadeIn 0.2s ease-in-out;
 }
+
+.btn-secundario {
+  display: block;
+  margin: 0 auto;
+
+  background-color: #2563eb;   /* azul sólido, mas não o mais escuro */
+  color: white;
+
+  border: none;
+
+  padding: 12px 22px;
+  border-radius: 8px;
+
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  min-width: 180px;
+  text-align: center;
+
+  opacity: 0.85; /* leve redução de destaque sem quebrar consistência */
+}
+
+.btn-secundario:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}

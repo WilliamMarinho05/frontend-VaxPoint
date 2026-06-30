@@ -26,7 +26,9 @@ function BuscaFilaCampanha({ intencoes, setIntencoes, idPosto, onAlternarModo })
   const handleConfirmarPresenca = async (idIntencao) => {
     try {
       await campaignService.confirmIntention(idIntencao, idPosto);
-      setIntencoes((prev) => prev.filter((item) => item.id_intencao !== idIntencao));
+      setIntencoes((prev) =>
+        prev.filter((item) => Number(item.id_intencao) !== Number(idIntencao))
+      );
       alert("Sucesso! Aplicação registrada no histórico e estoque atualizado.");
     } catch (error) {
       alert("Erro ao confirmar aplicação: " + (error.error || error));

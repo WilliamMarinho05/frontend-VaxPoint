@@ -1,82 +1,87 @@
-/* ==========================================================================
-   CONTAINER PRINCIPAL E ALINHAMENTO
-   ========================================================================== */
-.atendimento-container {
+/* WRAPPER */
+.atendimento-wrapper {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 14px;
-  box-sizing: border-box;
   font-family: var(--font-main);
-}
-
-.atendimento-header,
-.atendimento-content {
-  width: 100%;
-  padding-bottom: 20px;
+  padding: 0 24px;
+  margin: 40px auto;
   box-sizing: border-box;
-  animation: fadeIn 0.25s ease-in-out;
 }
 
-/* ==========================================================================
-   CABEÇALHO DA PÁGINA E ABAS (TABS)
-   ========================================================================== */
+/* CARD */
+.atendimento-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 20px 14px;
+  box-sizing: border-box;
+}
+
+/* HEADER */
 .atendimento-header {
-  margin-top: 40px;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 .atendimento-header h2 {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 800;
-  letter-spacing: -0.5px;
-  margin: 0 0 24px 0;
   color: var(--dark-blue);
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 12px;
 }
 
-.atendimento-header h2 svg {
-  color: var(--primary-blue);
+/* CONTAINER DOS BOTÕES */
+.toggle-switch-container {
+  display: inline-flex;
+  gap: 4px;
+
+  background: var(--btn-gray-bg);
+  border: 1px solid var(--border-light);
+
+  padding: 4px;
+  border-radius: 10px;
+
+  width: fit-content;
 }
 
-.atendimento-tabs {
-  display: flex;
-  gap: 12px;
-  border-bottom: 2px solid var(--border-light);
-  padding-bottom: 1px;
-}
-
-.atendimento-tabs button {
-  background: transparent;
+/* BOTÃO BASE */
+.tab-float {
   border: none;
-  border-bottom: 3px solid transparent;
-  padding: 12px 24px;
-  font-size: 1rem;
+  background: transparent;
+
+  padding: 8px 16px;
+  border-radius: 8px;
+
+  font-size: 0.9rem;
   font-weight: 600;
+
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+
+  transition: all 0.2s ease;
 }
 
-.atendimento-tabs button:hover {
-  color: var(--brand-blue);
+/* hover */
+.tab-float:hover:not(.active) {
+  background: rgba(0,0,0,0.04);
+  color: var(--dark-blue);
 }
 
-.atendimento-tabs button.active {
-  color: var(--primary-blue);
-  border-bottom-color: var(--primary-blue);
+/* ATIVO ROTINA (1º botão) */
+.tab-float.active:nth-child(1) {
+  background: var(--primary-green);
+  color: white;
 }
 
+/* ATIVO CAMPANHA (2º botão) */
+.tab-float.active:nth-child(2) {
+  background: var(--primary-blue);
+  color: white;
+}
+
+/* CONTEÚDO */
 .atendimento-content {
-  animation: fadeIn 0.25s ease-in-out;
-}
-
-/* ==========================================================================
-   ANIMAÇÃO COMPARTILHADA
-   ========================================================================== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  margin-top: 10px;
 }

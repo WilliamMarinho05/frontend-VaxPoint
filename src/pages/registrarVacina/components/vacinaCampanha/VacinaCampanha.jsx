@@ -129,7 +129,7 @@ function VacinaCampanha() {
         {erroUsuario && <div className="msg-erro-usuario">{erroUsuario}</div>}
 
         <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
-          <button type="submit" className="btn-confirmar" disabled={carregando || !idPosto}>
+          <button type="submit" className="btn-secundario" disabled={carregando || !idPosto}>
             {carregando ? 'Buscando...' : 'Pesquisar Cidadão'}
           </button>
           {pesquisado && (

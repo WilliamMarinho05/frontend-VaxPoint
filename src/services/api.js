@@ -7,4 +7,15 @@ const api = axios.create({
   },
 });
 
+// INTERCEPTOR (ENVIA TOKEN AUTOMATICAMENTE)
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("vaxpoint_token");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
 export default api;

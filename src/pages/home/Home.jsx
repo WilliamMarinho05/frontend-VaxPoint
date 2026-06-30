@@ -43,23 +43,24 @@ function Home() {
 // PROTEÇÃO DE ROTA E CARREGAMENTO DE DADOS (Tudo em 1)
   useEffect(() => {
     // 1. Verificação de segurança (usando o estado que já foi lido no topo)
-    if (!usuario) {
-      alert("Acesso negado! Por favor, faça login para acessar o painel principal.");
-      navigate('/login');
+    const token = localStorage.getItem("vaxpoint_token");
+
+    if (!token || !usuario) {
+
+      navigate("/login");
       return;
     }
 
     // 3. Carrega os pets cruzando com o ID do dono
-    const idDono = usuario.id_usuario || usuario.id;
-    if (idDono) {
-      buscarPetsAPI(idDono)
-        .then(dados => setMeusPets(dados || []))
-        .catch(err => console.error("Erro ao buscar pets reais do usuário:", err));
-    }
-  }, [usuario, navigate]);
+    buscarPetsAPI()
+      .then(dados => setMeusPets(dados || []))
+      .catch(err => console.error(err));
+    }, [usuario, navigate]);
 
   // 3. Carrega Postos e Campanhas do Banco
   useEffect(() => {
+    const token = localStorage.getItem("vaxpoint_token");
+    if (!token) return;
     const carregarDados = async () => {
       try {
         const [postosData, campanhasData] = await Promise.all([
@@ -152,11 +153,12 @@ function Home() {
   const lidarComSucessoIntencao = async (nomeDestinatario, targetVacina, idPostoEscolhido) => {
     try {
       const dadosParaEnviar = {
-        idUsuario: usuario.id_usuario || usuario.id,
-        idPosto: parseInt(idPostoEscolhido),
-        idVacina: intencaoVacina.id_vacina, 
-        idCampanha: intencaoVacina.id,      
-        idPet: targetVacina === 'humano' ? null : parseInt(targetVacina)
+          idPosto: parseInt(idPostoEscolhido),
+          idVacina: intencaoVacina.id_vacina,
+          idCampanha: intencaoVacina.id,
+          idPet: targetVacina === "humano"
+              ? null
+              : parseInt(targetVacina)
       };
 
       const resultado = await registrarIntencaoAPI(dadosParaEnviar);

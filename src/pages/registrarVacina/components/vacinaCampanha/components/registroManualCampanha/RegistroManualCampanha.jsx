@@ -20,7 +20,7 @@ function RegistroManualCampanha({ dadosUsuario, idPosto, onSucesso }) {
       try {
         const [dadosCampanhas, dadosPets] = await Promise.all([
           campaignService.getCampaigns(idPosto),
-          buscarPetsAPI(dadosUsuario?.id_usuario) // Proteção adicionada aqui
+          campaignService.getUserPets(dadosUsuario.id_usuario)
         ]);
         setCampanhas(dadosCampanhas || []);
         setPets(dadosPets || []);

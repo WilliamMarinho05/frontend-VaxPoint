@@ -1,8 +1,8 @@
 import api from "./api";
 
 // AJUSTADO: Agora recebe o idUsuario para trazer apenas os pets dele
-export const buscarPetsAPI = async (idUsuario) => {
-  const response = await api.get(`/pets/usuario/${idUsuario}`); // Vai bater certinho na nova rota!
+export const buscarPetsAPI = async () => {
+  const response = await api.get("/pets/meus");
   return response.data;
 };
 

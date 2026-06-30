@@ -45,7 +45,7 @@ function Carousel({ campanhas = [] }) {
         <div className="carousel-track">
           {campanhas.map((campanha, index) => (
             <div key={campanha.id} className={`carousel-slide ${getPosition(index)}`}>
-              <img src={campanha.imagemUrl} className="carousel-image" alt={campanha.titulo} />
+              <img src={campanha.imagem_url} className="carousel-image" alt={campanha.titulo} />
               <div className="carousel-info">
                 <h3>{campanha.titulo}</h3>
                 <p>{campanha.publico}</p>

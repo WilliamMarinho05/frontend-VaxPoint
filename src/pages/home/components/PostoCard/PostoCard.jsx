@@ -63,7 +63,7 @@ function PostoCard({ posto, onClick, usuarioLogado, onAtualizarPosto }) {
       </div>
 
       <div className="home-card-actions" onClick={(e) => e.stopPropagation()}>
-        <a href={posto.linkGoogleMaps} target="_blank" rel="noreferrer" className="home-btn-mapa">
+        <a href={`https://www.google.com/maps?q=${posto.lat},${posto.lng}`} target="_blank" rel="noreferrer" className="home-btn-mapa">
           <Map size={18} /> Ver no mapa
         </a>
       </div>

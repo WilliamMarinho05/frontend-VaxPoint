@@ -105,3 +105,37 @@
   background-color: var(--bg-light-hover);
   color: var(--dark-blue);
 }
+
+.navbar-link.active {
+  color: var(--brand-blue);
+  font-weight: 700;
+  position: relative;
+}
+
+.navbar-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--brand-blue);
+  border-radius: 2px;
+}
+
+.navbar-link-admin.active {
+  color: var(--admin-danger);
+  font-weight: 700;
+  position: relative;
+}
+
+.navbar-link-admin.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--admin-danger);
+  border-radius: 2px;
+}

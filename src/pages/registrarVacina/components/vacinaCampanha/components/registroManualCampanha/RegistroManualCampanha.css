@@ -9,17 +9,30 @@
   margin-bottom: 16px;
 }
 
-.alerta-validacao {
+.alerta-validacao.erro {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
-  background-color: var(--badge-blue-bg); /* Fundo azul de suporte */
-  border-left: 4px solid var(--primary-blue); /* Borda em azul ativo */
+
+  background-color: #fef2f2; /* vermelho MUITO suave */
+  border: 1px solid #fca5a5; /* vermelho claro forte */
+  border-radius: 8px;
+
   padding: 12px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  color: var(--brand-blue); /* Texto institucional */
   margin: 12px 0;
+
+  color: #991b1b; /* vermelho escuro legível */
+  font-size: 0.9rem;
+}
+
+.alerta-validacao.erro p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.icone-info {
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
 .badge-publico {
@@ -49,4 +62,31 @@
 
 .btn-voltar:hover {
   opacity: 0.85;
+}
+
+.alerta-validacao.sucesso {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  background-color: #f0fdf4; /* verde bem suave */
+  color: #166534; /* verde escuro legível */
+
+  border: 1px solid #86efac; /* borda fina uniforme */
+
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+
+  font-size: 0.9rem;
+}
+
+.alerta-validacao.sucesso p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.alerta-validacao.sucesso .icone-info {
+  font-size: 1.1rem;
+  line-height: 1;
 }

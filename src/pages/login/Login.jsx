@@ -12,7 +12,6 @@ function Login() {
   const [senha, setSenha] = useState('');
   const [carregando, setCarregando] = useState(false);
 
-
 // 2. E a sua função handleLogin fica assim:
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,13 +24,14 @@ function Login() {
     try {
       setCarregando(true);
 
-      // Chama o serviço isolado
       const dados = await loginAPI(email, senha);
 
-      // Salva no localStorage
+      // ✔ JWT TOKEN (ESSENCIAL)
+      localStorage.setItem('vaxpoint_token', dados.token);
+
+      // ✔ USUÁRIO
       localStorage.setItem('vaxpoint_user', JSON.stringify(dados.usuario));
 
-      // Splash screen e navegação
       setTimeout(() => {
         navigate('/');
       }, 2500);

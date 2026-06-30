@@ -39,20 +39,9 @@ function Cadastro() {
 
       const resposta = await cadastrarUsuarioAPI(dadosNovos);
 
-      // CORREÇÃO: Pegamos exatamente o id_usuario que vem do back-end
-      const usuarioLogado = { 
-        id_usuario: resposta.id_usuario, // <-- Agora o ID está salvo!
-        nome, 
-        email, 
-        data_nascimento: dataNascimento, 
-        sexo, 
-        is_admin: 0 
-      };
-
-      localStorage.setItem('vaxpoint_user', JSON.stringify(usuarioLogado));
       alert(`Conta criada com sucesso! Bem-vindo, ${nome}!`);
       
-      navigate('/'); 
+      navigate('/login'); 
 
     } catch (error) {
       alert(error.message || 'Falha ao realizar o cadastro no sistema.');

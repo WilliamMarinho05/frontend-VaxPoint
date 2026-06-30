@@ -92,12 +92,14 @@ function VacinaRotina() {
       }
 
     } catch (error) {
-      // Se o erro for do tipo 404 (Usuário não encontrado), joga na mensagem bonitinha do front
-      if (error.error && error.error.includes("Cidadão não encontrado")) {
+      const msg = error.error || error.message;
+
+      if (msg?.includes("Não encontrado")) {
         setErroUsuario("Cidadão não encontrado. Verifique o e-mail e a data de nascimento.");
-      } else {
-        alert("Erro na operação: " + (error.error || error));
+        return;
       }
+
+      alert("Erro na operação: " + msg);
     }
   };
 
