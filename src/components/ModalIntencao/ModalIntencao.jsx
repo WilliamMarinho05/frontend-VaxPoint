@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ModalIntencao.css';
+import { X, User, MapPin } from 'lucide-react';
 
 function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }) {
   const [targetVacina, setTargetVacina] = useState('');
@@ -35,7 +36,9 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
   return (
     <div className="home-modal-overlay" onClick={onClose}>
       <div className="home-modal-card" onClick={(e) => e.stopPropagation()}>
-        <h3>Confirmar Intenção</h3>
+        <h3 className="home-modal-title">
+          Confirmar Intenção
+        </h3>
         <p className="home-modal-text">
           Deseja registrar interesse na vacina: <strong>{intencaoVacina.vacinaNome || intencaoVacina.titulo}</strong>?
         </p>
@@ -44,7 +47,10 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
           
           {/* SELEÇÃO DO BENEFICIÁRIO BASEADO NO PÚBLICO DA CAMPANHA */}
           <div className="home-modal-field-group">
-            <label className="home-modal-label">Quem irá tomar a vacina?</label>
+            <label className="home-modal-label">
+              <User size={14} className="home-modal-label-icon" />
+              Quem irá tomar a vacina?
+            </label>
             <select 
               required
               className="home-modal-select"
@@ -55,7 +61,7 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
               
               {/* Opção Humana só aparece se o público da campanha for Humano */}
               {intencaoVacina.publico === 'Humano' && (
-                <option value="humano">🙋‍♂️ Eu mesmo ({usuario?.nome})</option>
+                <option value="humano"> Eu mesmo ({usuario?.nome})</option>
               )}
               
               {/* Lista apenas pets que batem com a espécie correta do pet requisitado */}
@@ -64,7 +70,7 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
                   const idDoPet = p.id_pet || p.id; // Garante que vai pegar o ID correto
                   return (
                     <option key={idDoPet} value={idDoPet}>
-                      🐾 {p.nome} ({p.especie})
+                       {p.nome} ({p.especie})
                     </option>
                   );
                 })
@@ -79,7 +85,10 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
 
           {/* NOVO CAMPO: SELEÇÃO DE POSTOS OBRIGATÓRIA DA RELAÇÃO DA CAMPANHA */}
           <div className="home-modal-field-group">
-            <label className="home-modal-label">Selecione o Posto para Atendimento:</label>
+            <label className="home-modal-label">
+              <MapPin size={14} className="home-modal-label-icon" />
+              Selecione o Posto para Atendimento:
+            </label>
             <select
               required
               className="home-modal-select"
@@ -89,7 +98,7 @@ function ModalIntencao({ intencaoVacina, usuario, meusPets, onClose, onSucesso }
               <option value="">Selecione um local disponível...</option>
               {intencaoVacina.postos && intencaoVacina.postos.length > 0 ? (
                 intencaoVacina.postos.map(p => (
-                  <option key={p.id} value={p.id}>📍 {p.nome} - {p.endereco.split(',')[1] || p.endereco}</option>
+                  <option key={p.id} value={p.id}> {p.nome} - {p.endereco.split(',')[1] || p.endereco}</option>
                 ))
               ) : (
                 <option value="" disabled>Nenhum posto cadastrado nesta campanha</option>

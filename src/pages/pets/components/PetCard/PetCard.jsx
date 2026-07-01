@@ -1,5 +1,5 @@
 import React from 'react';
-import { Edit2, Trash2 } from 'lucide-react';
+import { Edit2, Trash2, Dog, Cat, ClipboardList } from 'lucide-react';
 import './PetCard.css';
 
 function PetCard({ pet, onVerCarteira, onEditar, onDeletar, calcularIdade }) {
@@ -19,7 +19,11 @@ function PetCard({ pet, onVerCarteira, onEditar, onDeletar, calcularIdade }) {
           <img src={pet.foto_url} alt={pet.nome} className="pets-avatar-img" />
         ) : (
           <div className="pets-avatar-placeholder">
-            {pet.especie === 'Cachorro' ? '🐶' : '🐱'}
+            {pet.especie === 'Cachorro' ? (
+              <Dog size={34} className="pets-species-icon" />
+            ) : (
+              <Cat size={34} className="pets-species-icon" />
+            )}
           </div>
         )}
       </div>
@@ -34,7 +38,10 @@ function PetCard({ pet, onVerCarteira, onEditar, onDeletar, calcularIdade }) {
         <p className="pets-info"><strong>Microchip/RGA:</strong> {pet.numero_microchip || 'Não informado'}</p>
       </div>
       
-      <span className="pets-click-badge">📋 Ver Carteira</span>
+      <span className="pets-click-badge pets-flex-line">
+        <ClipboardList size={14} />
+        <span>Ver Carteira</span>
+      </span>
     </div>
   );
 }

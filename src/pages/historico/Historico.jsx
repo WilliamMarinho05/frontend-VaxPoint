@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Filter, CheckCircle, CalendarDays } from 'lucide-react';
+import { Clock, Filter, CheckCircle, Calendar } from 'lucide-react';
 import { historicoService } from '../../services/historicService'; 
 import './Historico.css';
 
@@ -68,11 +68,19 @@ function Historico() {
               <div className="historico-timeline-content">
                 <div className="historico-meta-row">
                   <span className={ev.tipo === 'HUMANO' ? "historico-tag-humano" : "historico-tag-pet"}>{ev.tipo}</span>
-                  <span className="historico-date-text">📅 {ev.data}</span>
+                  <span className="historico-date-text">
+                    <Calendar size={14} className="historico-date-icon" />
+                    {ev.data}
+                  </span>
                 </div>
                 <h4 className="historico-vacina-name">{ev.vacina}</h4>
                 <p className="historico-benefi-text">Aplica-se a: <strong>{ev.beneficiario}</strong></p>
-                <span className={ev.status === 'CONCLUIDA' || ev.status === 'Aplicada' ? "historico-status-pronto" : "historico-status-agendado"}>
+                <span className=
+                  {
+                    ev.status === 'CONCLUIDA' || ev.status === 'Aplicada'
+                    ? <CheckCircle size={20} className="historico-icon-success" />
+                    : <Calendar size={20} className="historico-icon-default" />
+                  }>
                   {ev.status === 'CONCLUIDA' || ev.status === 'Aplicada' ? 'Dose Aplicada' : 'Dose Planejada'}
                 </span>
               </div>

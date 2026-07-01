@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload } from 'lucide-react';
+import { X, Upload, Pencil, Plus } from 'lucide-react';
 import './PetFormModal.css';
 
 function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponiveis, dadosIniciais }) {
@@ -81,6 +81,14 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
     const sexoGarantido = sexo || 'Macho'; 
     // Se ainda assim não houver ID selecionado, tenta pegar a primeira disponível do filtro
     const idRacaGarantido = idRaca || (raçasFiltradas[0]?.id_raca?.toString()) || '1';
+    
+    const hojeMes = new Date().toISOString().slice(0, 7);
+
+    if (dataNasc && dataNasc > hojeMes) {
+      alert("Não pode selecionar mês futuro.");
+      return;
+    }
+    
 
     onSalvar({ 
       nome, 
@@ -101,7 +109,19 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
     <div className="pets-modal-overlay" onClick={onClose}>
       <div className="pets-modal-card wide" onClick={(e) => e.stopPropagation()}>
         <header className="pets-modal-header">
-          <h3>{editandoPetId ? '✏️ Editar Pet' : '➕ Novo Pet'}</h3>
+          <h3 className="pets-modal-title">
+            {editandoPetId ? (
+              <>
+                <Pencil size={18} className="pets-modal-title-icon" />
+                Editar Pet
+              </>
+            ) : (
+              <>
+                <Plus size={18} className="pets-modal-title-icon" />
+                Novo Pet
+              </>
+            )}
+          </h3>
           <button className="pets-modal-close-icon" onClick={onClose}><X size={20} /></button>
         </header>
         
@@ -123,8 +143,8 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
             <div className="pets-input-group">
               <label className="pets-label">Espécie</label>
               <select value={especie} onChange={(e) => handleEspecieChange(e.target.value)} className="pets-input">
-                <option value="Cachorro">🐶 Cachorro</option>
-                <option value="Gato">🐱 Gato</option>
+                <option value="Cachorro">Cachorro</option>
+                <option value="Gato">Gato</option>
               </select>
             </div>
 
@@ -143,7 +163,7 @@ function PetFormModal({ isOpen, onClose, onSalvar, editandoPetId, racasDisponive
 
             <div className="pets-input-group">
               <label className="pets-label">Mês/Ano Nascimento</label>
-              <input type="month" value={dataNasc} onChange={(e) => setDataNasc(e.target.value)} className="pets-input" required />
+              <input type="month" value={dataNasc} onChange={(e) => setDataNasc(e.target.value)} className="pets-input" max={new Date().toISOString().slice(0, 7)} required />
             </div>
 
             <div className="pets-input-group">

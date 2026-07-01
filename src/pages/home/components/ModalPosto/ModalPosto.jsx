@@ -1,5 +1,6 @@
 import React from 'react';
 import './ModalPosto.css';
+import { LocateFixed, Clock, ClipboardList } from 'lucide-react';
 
 export default function ModalPosto({ posto, onClose }) {
     // Defesa: se não houver posto selecionado, não renderiza nada
@@ -13,18 +14,28 @@ export default function ModalPosto({ posto, onClose }) {
             <div className="modal-posto-card" onClick={(e) => e.stopPropagation()}>
                 <h2 className="modal-posto-title">{posto.nome || "Posto de Saúde"}</h2>
                 
-                <p className="modal-posto-text">
-                    <span className="modal-posto-icon-margin">📍</span> 
+                <p className="modal-posto-text modal-flex-line">
+                    <span className="icon-wrap">
+                        <LocateFixed size={16} className="texto-icon" />
+                    </span>
                     {posto.endereco || "Endereço não informado"}
                 </p>
                 
-                <div className="modal-posto-badge">
-                    <span>🕒</span> Horário: {posto.horario || "07:00 às 19:00"}
+                <div className="modal-posto-badge modal-flex-line">
+                    <span className="icon-wrap">
+                        <Clock size={16} />
+                    </span>
+                    <span>Horário: {posto.horario || "07:00 às 19:00"}</span>
                 </div>
                 
                 <hr className="modal-posto-divider" />
                 
-                <h4 className="modal-posto-subtitle">📋 Vacinas Disponíveis em Estoque:</h4>
+                <h4 className="modal-posto-subtitle modal-flex-line">
+                    <span className="icon-wrap">
+                        <ClipboardList size={16} />
+                    </span>
+                    <span>Vacinas Disponíveis em Estoque:</span>
+                </h4>
                 
                 <div className="modal-posto-grid">
                     {vacinasReais.length > 0 ? (

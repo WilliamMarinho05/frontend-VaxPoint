@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Map, AlertTriangle, ToggleLeft, ToggleRight } from 'lucide-react';
+import { LocateFixed, Clock, Map, AlertTriangle, ToggleLeft, ToggleRight } from 'lucide-react';
 import { atualizarAlertaPostoAPI } from '../../../../services/infoService'; // Importação correta do serviço
 import './PostoCard.css';
 
@@ -40,10 +40,12 @@ function PostoCard({ posto, onClick, usuarioLogado, onAtualizarPosto }) {
       <div className="card-texto-alinhado">
         <h4 className="home-card-title">{posto.nome}</h4>
         <p className="home-posto-texto">
-          📍 <strong>Endereço:</strong> {posto.endereco}
+          <LocateFixed size={16} className="texto-icon" />
+          <strong>Endereço:</strong> {posto.endereco}
         </p>
         <p className="home-posto-texto">
-          ⏰ <strong>Horário:</strong> {posto.horario}
+          <Clock size={16} className="texto-icon" />
+          <strong>Horário:</strong> {posto.horario}
         </p>
 
         {eAdmin && (
@@ -59,7 +61,7 @@ function PostoCard({ posto, onClick, usuarioLogado, onAtualizarPosto }) {
           </div>
         )}
 
-        <span className="home-click-indicator">💡 Clique no card para ver as vacinas disponíveis</span>
+        <span className="home-click-indicator">Clique no card para ver as vacinas disponíveis</span>
       </div>
 
       <div className="home-card-actions" onClick={(e) => e.stopPropagation()}>

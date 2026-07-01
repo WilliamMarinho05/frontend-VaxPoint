@@ -146,3 +146,26 @@
     text-align: center;
     padding: 10px 0;
 }
+
+.texto-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-green);
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.modal-flex-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px; /* pequeno ajuste visual fino */
+}

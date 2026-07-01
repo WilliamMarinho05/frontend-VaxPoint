@@ -8,14 +8,14 @@ function FilterBar({
   setAbaAtiva, 
   filtroBusca, 
   setFiltroBusca,
-  vacinasHumanas,        // 🌟 Recebido dinamicamente da Home
-  vacinasPets,           // 🌟 Recebido dinamicamente da Home
+  vacinasHumanas,        // Recebido dinamicamente da Home
+  vacinasPets,           // Recebido dinamicamente da Home
   vacinasSelecionadas, 
   setVacinasSelecionadas, 
   filtroRegiao, 
   setFiltroRegiao,
-  filtroPublico,         // 🌟 Novo estado do banco ('Humano', 'Cachorro', 'Gato')
-  setFiltroPublico       // 🌟 Atualizador do público
+  filtroPublico,         // Novo estado do banco ('Humano', 'Cachorro', 'Gato')
+  setFiltroPublico       // Atualizador do público
 }) {
   const [expandido, setExpandido] = useState(false);
   const containerRef = useRef(null); 

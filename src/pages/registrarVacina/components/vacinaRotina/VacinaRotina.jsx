@@ -129,6 +129,7 @@ function VacinaRotina() {
             value={dataNascimento}
             onChange={(e) => handleInputChange('date', e.target.value)}
             required
+            max={new Date().toLocaleDateString('en-CA')}
             title="Data de Nascimento do Cidadão"
             className={erroUsuario ? 'input-erro' : ''}
           />

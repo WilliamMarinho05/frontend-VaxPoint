@@ -238,3 +238,25 @@
   cursor: pointer;
   font-weight: 600;
 }
+
+.historico-icon-success {
+  color: var(--primary-green);
+}
+
+.historico-icon-default {
+  color: var(--primary-blue);
+}
+
+.historico-date-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.historico-date-icon {
+  color: var(--text-light);
+  flex-shrink: 0;
+}

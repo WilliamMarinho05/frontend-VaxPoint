@@ -12,6 +12,7 @@
   --admin-danger: #DC2626;     /* Links admin, botão deletar e botão de excluir pet */
   --alert-bg: #FEF2F2;         /* Fundo do alerta comunitário de falta de estoque */
   --alert-border: #FEE2E2;     /* Borda do alerta comunitário */
+  --btn-gray-dark: #e2e8f0;
 
   /* --- TONS NEUTROS / VARIÁVEIS DE FUNDO --- */
   --bg-light: #F4F7FC;         /* Fundo oficial de todas as páginas do app */

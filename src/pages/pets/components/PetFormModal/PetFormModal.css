@@ -154,3 +154,18 @@
 .pets-btn-submit-modal:hover {
   background-color: var(--brand-blue);
 }
+
+.pets-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  color: var(--dark-blue);
+  margin: 0;
+  font-weight: 700;
+}
+
+.pets-modal-title-icon {
+  color: var(--primary-blue);
+  flex-shrink: 0;
+}

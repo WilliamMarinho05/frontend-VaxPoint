@@ -44,7 +44,7 @@
 
 .home-modal-select { 
   width: 100%; 
-  padding: 12px; 
+  padding: 5px; 
   border-radius: 8px; 
   border: 1px solid var(--border-light); 
   font-size: 14px; 
@@ -79,4 +79,41 @@
   font-weight: 600; 
   color: var(--bg-card); 
   cursor: pointer; 
+}
+
+.home-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  color: var(--dark-blue);
+  margin: 0 0 6px 0;
+}
+
+.home-modal-title-icon {
+  color: var(--primary-blue);
+}
+
+.home-modal-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-slate);
+  margin-bottom: 6px;
+}
+
+.home-modal-label-icon {
+  color: var(--text-muted);
+}
+
+.modal-warning-text {
+  margin-top: 6px;
+  margin-bottom: 14px; /* espaço real entre select e próximo bloco */
+  font-size: 12px;
+  color: #6c0f0f;
+  font-weight: 500;
+  line-height: 1.4;
+  display: block;
 }

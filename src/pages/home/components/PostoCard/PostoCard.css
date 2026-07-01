@@ -13,11 +13,7 @@
   margin: 0 0 8px 0;
 }
 
-.home-posto-texto {
-  font-size: 1rem;
-  margin: 6px 0;
-  color: var(--text-slate);
-}
+
 
 .home-click-indicator {
   font-size: 12px;
@@ -83,6 +79,30 @@
 .home-btn-mapa:hover {
   background: var(--primary-green);
   color: var(--bg-card);
+}
+
+.home-posto-texto {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.texto-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-green);
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.home-click-indicator::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-green);
+  display: inline-block;
+  margin-right: 8px;
 }
 
 /* Responsividade do Alerta de Estoque (Celular) */

@@ -96,6 +96,7 @@ function Cadastro() {
               value={dataNascimento}
               onChange={(e) => setDataNascimento(e.target.value)}
               className="cadastro-input"
+              max={new Date().toLocaleDateString('en-CA')}
             />
           </div>
 

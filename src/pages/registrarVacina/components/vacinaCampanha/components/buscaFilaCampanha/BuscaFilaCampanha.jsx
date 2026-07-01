@@ -1,22 +1,23 @@
 // components/BuscaFilaCampanha.jsx
 import React, { useState } from 'react';
 import campaignService from '../../../../../../services/campaignService';
+import { User, Dog, Cat, PawPrint, CalendarX, Layers  } from 'lucide-react';
 import './BuscaFilaCampanha.css';
 
 const obterEstiloPublico = (idPet, especiePet) => {
   if (!idPet) {
-    return { icone: '👤', classe: 'vax-tag-humano', texto: 'Humano', eAnimal: false };
+    return { icone: <User size={16} />,  classe: 'vax-tag-humano', texto: 'Humano', eAnimal: false };
   }
   
   const especie = especiePet?.toLowerCase();
   if (especie === 'cachorro' || especie === 'cão' || especie === 'cao') {
-    return { icone: '🐶', classe: 'vax-tag-pet-cachorro', texto: 'Cachorro', eAnimal: true };
+    return { icone: <Dog size={16} />, classe: 'vax-tag-pet-cachorro', texto: 'Cachorro', eAnimal: true };
   }
   if (especie === 'gato' || especie === 'felino') {
-    return { icone: '🐱', classe: 'vax-tag-pet-gato', texto: 'Gato', eAnimal: true };
+    return { icone: <Cat size={16} />, classe: 'vax-tag-pet-gato', texto: 'Gato', eAnimal: true };
   }
   
-  return { icone: '🐾', classe: 'vax-tag-pet-outros', texto: especiePet || 'Pet', eAnimal: true };
+  return { icone: <PawPrint size={16} />, classe: 'vax-tag-pet-outros', texto: especiePet || 'Pet', eAnimal: true };
 };
 
 function BuscaFilaCampanha({ intencoes, setIntencoes, idPosto, onAlternarModo }) {
@@ -51,9 +52,25 @@ function BuscaFilaCampanha({ intencoes, setIntencoes, idPosto, onAlternarModo })
 
   // Define o rótulo do botão de filtro
   const obterRotuloFiltro = () => {
-    if (filtroTipo === 'humanos') return '👤 Humanos';
-    if (filtroTipo === 'animais') return '🐾 Animais';
-    return '🔄 Todos';
+    if (filtroTipo === 'humanos') {
+      return (
+        <>
+          <User size={14} /> Humanos
+        </>
+      );
+    }
+    if (filtroTipo === 'animais') {
+      return (
+        <>
+          <PawPrint size={14} /> Animais
+        </>
+      );
+    }
+    return (
+      <>
+        <Layers size={14} /> Todos
+      </>
+    );
   };
 
   return (
@@ -65,7 +82,9 @@ function BuscaFilaCampanha({ intencoes, setIntencoes, idPosto, onAlternarModo })
       
       {intencoes.length === 0 ? (
         <div className="aviso-vazio vax-shadow-suave">
-          <div className="icone-aviso">🗓️</div>
+          <div className="icone-aviso">
+            <CalendarX size={40} color="var(--text-muted)" />
+          </div>
           <p>Nenhuma intenção prévia foi agendada para este cidadão/tutor neste posto.</p>
           <button onClick={onAlternarModo} className="btn-vax-green">
             Registrar na Campanha Manualmente

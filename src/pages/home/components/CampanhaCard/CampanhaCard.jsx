@@ -1,4 +1,5 @@
 import React from 'react';
+import { CalendarRange } from "lucide-react";
 import './CampanhaCard.css';
 
 function CampanhaCard({ campanha, onRegistrarIntencao }) {
@@ -13,7 +14,8 @@ function CampanhaCard({ campanha, onRegistrarIntencao }) {
         </div>
 
         <p className="home-card-periodo">
-          🗓️ <strong>Período:</strong> {campanha.periodo}
+          <CalendarRange size={16} className="texto-icon" />
+          <strong>Período:</strong> {campanha.periodo}
         </p>
 
         <p className="home-card-desc">{campanha.descricao}</p>

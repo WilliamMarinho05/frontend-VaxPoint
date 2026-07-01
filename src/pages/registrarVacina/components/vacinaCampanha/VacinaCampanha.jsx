@@ -121,6 +121,7 @@ function VacinaCampanha() {
             value={dataNascimento}
             onChange={(e) => { setDataNascimento(e.target.value); setErroUsuario(''); }}
             disabled={carregando}
+            max={new Date().toLocaleDateString('en-CA')}
             required
             title="Data de Nascimento do Cidadão"
           />

@@ -108,3 +108,17 @@
   box-shadow: 0 10px 25px rgba(0, 123, 255, 0.12);
   border-color: var(--primary-blue);
 }
+
+.home-card-periodo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.texto-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--primary-blue);
+  stroke-width: 2;
+  flex-shrink: 0;
+}
